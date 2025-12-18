@@ -1,106 +1,183 @@
 # Employee Management System (EMS)
-> **Submission for Task 2 – React Developer Internship Assignment**
 
-This project is a React-based Employee Management System designed to demonstrate core HR and administrative functionalities. It fulfills the requirements for a comprehensive system managing Employees, Attendance, Payroll, and Tasks.
+## 📌 Overview
+This project is a **Basic Employee Management System (EMS)** developed as part of the **Internship Selection Assignment** for Obzen Technolabs.
+
+The application demonstrates core HR and administrative workflows such as:
+- Employee management
+- Attendance tracking using RFID/NFC (simulated)
+- Payroll calculation
+- Task allotment and tracking
+
+The focus of this project is on **clean architecture, business logic understanding, and practical feasibility**, rather than full-scale enterprise features.
+
+---
 
 ## 🎯 Objective
-Build a Basic Employee Management System (EMS) using React/Next.js that demonstrates role-based access for **Admin**, **HR**, and **Employees**, covering the entire lifecycle of employee management from onboarding to payroll processing.
+To build a simple, functional EMS using **React (Next.js)** that showcases:
+- Role-based access (Admin / HR / Employee)
+- Attendance-based payroll logic
+- Modular and readable frontend structure
+- Clear documentation and assumptions
 
-## ✅ Implemented Features
+---
 
-### 1. Employee Management
-*   **CRUD Operations**: Admin/HR can Add, Edit, and Delete employees.
-*   **Comprehensive Fields**: Limits management to Name, ID, Department, Role, Salary, and NFC ID.
-*   **Role-Based Security**: Admin/HR cannot modify their own or equal-level privileges to prevent system lockouts; they strictly manage 'Employee' roles.
+## 🧩 Core Features
 
-### 2. Attendance System
-*   **NFC Simulation**: A dedicated "Check In / Check Out" widget simulates mobile NFC attendance.
-*   **Real-time Tracking**: Captures precise timestamps for entry and exit.
-*   **History & Filtering**: Employees view their own logs; Management can filter records by date and employee ID.
+### 👤 User Roles (Simulated)
+- **Admin**
+- **HR**
+- **Employee**
 
-### 3. Payroll Management
-*   **Salary Logic**: Automated calculation of Net Salary based on "Present Days" data directly from the Attendance logs.
-*   **Context-Driven Accuracy**: Uses a centralized `AttendanceContext` to ensure payroll generation uses the exact same data source as the attendance reports.
-*   **Pay Slip Generation**: Generates and downloads professional PDF pay slips using `jspdf`.
+Role-based access is implemented to control which actions each user can perform.
 
-### 4. Task Allotment / Ticketing
-*   **Workflow**: Admin/HR assigns tasks -> Employee marks status (Open → In Progress → Completed).
-*   **Dashboards**: Separate views for "My Tasks" (Employee) and "Team Tasks" (Admin/HR).
+---
 
-## �️ Tech Stack using Next.js 15
+### 🧑‍💼 Employee Management
+(Admin / HR only)
+- Add new employee
+- Edit employee details
+- Delete employee
+- View employee list
 
-*   **Framework**: Next.js 15 (React 19)
-*   **State Management**: React Context API (`AuthContext`, `EmployeeContext`, `AttendanceContext`, `TaskContext`)
-*   **Styling**: Tailwind CSS 4
-*   **Persistence**: `localStorage` (Mock Backend Simulation)
-*   **PDF Engine**: `jspdf`
+**Employee Fields:**
+- Name  
+- Employee ID  
+- Department  
+- Role  
+- Monthly Salary  
+- RFID / NFC ID  
 
-## 🏗️ Architecture & Component Structure
+---
 
-The application follows a **Page-Based Routing** architecture supported by **Context Providers** for global state management.
+### 🕒 Attendance Management
+- RFID / NFC–based attendance (simulated)
+- Employee check-in and check-out
+- Timestamp-based attendance records
+- Attendance history view
 
-### Directory Structure
-```
-src/
-├── context/               # Global State logic (The "Brain")
-│   ├── AuthContext.js     # User session & role handling
-│   ├── EmployeeContext.js # CRUD for employee data
-│   ├── AttendanceContext.js # Centralized logic for check-ins & stats
-│   └── TaskContext.js     # Task assignment & status updates
-│
-├── pages/                 # Routes (The "Views")
-│   ├── index.js           # Login Page
-│   ├── employees.js       # Main Dashboard (Employee list & Profile)
-│   ├── attendance.js      # Attendance History View
-│   ├── payroll.js         # Salary Processing & PDF Download
-│   └── tasks.js           # Task Board
-│
-├── components/            # Reusable UI Blocks (The "Bricks")
-│   ├── common/            # Navbar, Buttons, Layouts
-│   ├── employees/         # Forms and List tables
-│   ├── attendance/        # CheckInOut Widget, AttendanceTable
-│   └── tasks/             # TaskForm, TaskList
-│
-└── utils/                 # Helpers
-    ├── salaryCalculator.js # Pure logic for salary math
-    └── pdfGenerator.js     # PDF creation logic
-```
+📌 *Note:* RFID/NFC functionality is simulated via manual input to demonstrate real-world workflow without hardware dependency.
+
+---
+
+### 💰 Payroll Management
+- Monthly payroll calculation
+- Attendance-based salary computation
+- Payroll summary view
+- Auto-generated **Monthly Payroll Report (PDF)**
+
+**Salary Logic:**
+Per Day Salary = Monthly Salary / 30
+Net Salary = Per Day Salary × Days Present
+
+---
+
+### 📋 Task Management
+(Admin / HR)
+- Assign tasks to employees
+- Set task status (Open / In Progress / Completed)
+
+(Employee)
+- View assigned tasks
+- Update task status
+
+---
+
+## 🛠 Tech Stack
+
+- **Next.js** (React – Pages Router)
+- **JavaScript**
+- **Context API** (State Management)
+- **LocalStorage** (Data persistence)
+- **jspdf** (Payroll PDF generation)
+- **Tailwind CSS** (Styling)
+
+---
+
+## 🏗 Architecture & Design
+
+- Page-level components are used for clarity and simplicity.
+- Global state is managed using **Context API**.
+- Data persistence is handled via **LocalStorage**.
+- No backend or database is used, as this is a frontend-focused assignment.
+
+The application is structured to prioritize:
+- Readability
+- Logical data flow
+- Business rule clarity
+
+---
+
+## 🔐 Authentication & Authorization (Important Note)
+
+- **Authentication is simulated** using Employee ID and role selection.
+- No passwords or real user verification are implemented.
+- Role-based UI restrictions are enforced to demonstrate authorization logic.
+
+📌 This approach is intentional and aligned with the scope of the assignment.
+
+---
+
+## 📡 RFID / NFC Simulation
+
+- Each employee is assigned a unique RFID/NFC ID.
+- Attendance is recorded by manually entering the RFID/NFC ID.
+- This simulates real-world RFID/NFC attendance systems used in organizations.
+
+---
+
+## 📄 Payroll PDF Report
+
+The Monthly Payroll Report includes:
+- Employee details
+- Payroll month & year
+- Attendance summary
+- Salary breakdown
+- Net salary payable
+
+The report is system-generated and downloadable as a PDF.
+
+---
 
 ## 🚀 Getting Started
 
-### Installation
-1.  Clone the repository:
-    ```bash
-    git clone https://github.com/sh1vam-03/employee-management-system.git
-    cd employee-management-system
-    ```
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
-3.  Run the development server:
-    ```bash
-    npm run dev
-    ```
-4.  Open [http://localhost:3000](http://localhost:3000)
+### 1. Clone the Repository
+```bash
+git clone <your-repo-url>
+cd employee-management-system
+```
 
-### 🔑 Demo Credentials (Permissions)
+### 2. Install Dependencies
+```bash
+npm install
+```
 
-| Role | Employee ID | Capabilities |
-|------|-------------|--------------|
-| **Admin** | `EMP001` | Full Management (Employees, Payroll, Tasks) |
-| **HR** | `EMP002` | HR Management (Same as Admin) |
-| **Employee** | `EMP003` | Self Service (Check In/Out, View Slips) |
-
-*Note: No password required for this demo.*
-
-## 🔮 Future Improvements
-
-1.  **Backend Integration**: Replace `localStorage` with a real database (PostgreSQL/MongoDB) and Node.js API.
-2.  **Advanced Authentication**: Implement JWT/OAuth for secure, persistent sessions.
-3.  **Leave Management**: Add module for Sick/Casual Leave applications and approval workflows.
-4.  **Analytics Dashboard**: Visual charts for attendance trends and task completion rates.
+### 3. Run the Application
+```bash
+npm run dev
+```
+Open: http://localhost:3000
 
 ---
-**Deliverable for**: React Developer Internship Task 2
-**Developed by**: Balaji Bokare
+
+## 📌 Assumptions & Limitations
+- Authentication is simulated for demonstration purposes.
+- RFID/NFC hardware integration is not implemented.
+- Payroll logic is simplified and does not include taxes, deductions, or bonuses.
+- This project is designed as an MVP-level prototype, not a production-ready HRMS.
+
+## 🔮 Future Improvements
+- Backend integration (Node.js / Firebase)
+- Secure authentication & authorization
+- Real RFID/NFC hardware support
+- Advanced payroll rules (tax, PF, deductions)
+- Improved UI/UX and validations
+
+---
+
+## 👨‍💻 Author
+**Balaji Bokare**
+Frontend / Full Stack Developer
+
+## 📬 Submission Note
+This project was developed specifically for internship evaluation and focuses on clarity, correctness, and practical implementation within a limited timeframe.
