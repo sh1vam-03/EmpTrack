@@ -143,7 +143,7 @@ The report is system-generated and downloadable as a PDF.
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/sh1vam-03/employee-management-system.git
 cd employee-management-system
 ```
 
