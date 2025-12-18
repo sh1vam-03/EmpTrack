@@ -1,107 +1,106 @@
-# Employee Management System
+# Employee Management System (EMS)
+> **Submission for Task 2 – React Developer Internship Assignment**
 
-A modern, responsive Employee Management Dashboard built with **Next.js 15**, **React 19**, and **Tailwind CSS 4**. This application provides role-based access control for Administrators, HR Managers, and Employees to manage attendance, payroll, and tasks efficiently.
+This project is a React-based Employee Management System designed to demonstrate core HR and administrative functionalities. It fulfills the requirements for a comprehensive system managing Employees, Attendance, Payroll, and Tasks.
 
-## 🚀 Features
+## 🎯 Objective
+Build a Basic Employee Management System (EMS) using React/Next.js that demonstrates role-based access for **Admin**, **HR**, and **Employees**, covering the entire lifecycle of employee management from onboarding to payroll processing.
 
-### 🔐 Authentication & Roles
-- **Role-Based Access Control (RBAC)**: Distinct interfaces for Admin, HR, and Employees.
-- **Secure Login**: Session management using Context API and LocalStorage.
+## ✅ Implemented Features
 
-### 👥 Employee Management (Admin/HR)
-- **CRUD Operations**: Add, Edit, and Delete employee records.
-- **Profile Management**: View detailed employee profiles including department and base salary.
-- **Visibility Control**: Admin/HR users manage *only* standard Employees (cannot modify other Admins/HRs).
+### 1. Employee Management
+*   **CRUD Operations**: Admin/HR can Add, Edit, and Delete employees.
+*   **Comprehensive Fields**: Limits management to Name, ID, Department, Role, Salary, and NFC ID.
+*   **Role-Based Security**: Admin/HR cannot modify their own or equal-level privileges to prevent system lockouts; they strictly manage 'Employee' roles.
 
-### 📅 Attendance System
-- **NFC-Style Check In/Out**: Digital "Check In" widget for Employees to mark their daily attendance.
-- **Automatic Tracking**: Records timestamp and status.
-- **History View**: Employees see their own history; Admin/HR can filter and view all Employee attendance records.
-- **Consistency**: Attendance "Present Days" logic is centralized to ensure Payroll accuracy.
+### 2. Attendance System
+*   **NFC Simulation**: A dedicated "Check In / Check Out" widget simulates mobile NFC attendance.
+*   **Real-time Tracking**: Captures precise timestamps for entry and exit.
+*   **History & Filtering**: Employees view their own logs; Management can filter records by date and employee ID.
 
-### 💰 Payroll Management
-- **Automated Calculation**: Calculates Net Salary based on "Present Days" from the attendance system.
-- **Robust Logic**: Handles salary inputs safely (numbers/strings).
-- **PDF Generation**: Generate and download detailed Salary Slips (via `jspdf`).
-- **Role-Gated**: Only Admin/HR can process payroll; Employees can only view/download their slips.
+### 3. Payroll Management
+*   **Salary Logic**: Automated calculation of Net Salary based on "Present Days" data directly from the Attendance logs.
+*   **Context-Driven Accuracy**: Uses a centralized `AttendanceContext` to ensure payroll generation uses the exact same data source as the attendance reports.
+*   **Pay Slip Generation**: Generates and downloads professional PDF pay slips using `jspdf`.
 
-### 📝 Task Management
-- **Assignment**: Admin/HR can assign tasks to specific Employees.
-- **Tracking**: Status updates (Open -> In Progress -> Completed).
-- **Filtered Views**: Employees see only their tasks; Managers see team tasks.
+### 4. Task Allotment / Ticketing
+*   **Workflow**: Admin/HR assigns tasks -> Employee marks status (Open → In Progress → Completed).
+*   **Dashboards**: Separate views for "My Tasks" (Employee) and "Team Tasks" (Admin/HR).
 
-### 📱 Responsive Design
-- **Mobile First**: Fully optimized for mobile devices (Check In/Out on the go).
-- **Dark Mode**: System-aware or user-toggled dark mode support (via Tailwind).
+## �️ Tech Stack using Next.js 15
 
-## 🛠️ Tech Stack
+*   **Framework**: Next.js 15 (React 19)
+*   **State Management**: React Context API (`AuthContext`, `EmployeeContext`, `AttendanceContext`, `TaskContext`)
+*   **Styling**: Tailwind CSS 4
+*   **Persistence**: `localStorage` (Mock Backend Simulation)
+*   **PDF Engine**: `jspdf`
 
-- **Framework**: Next.js 15 (Page Router)
-- **UI Library**: React 19
-- **Styling**: Tailwind CSS 4
-- **Icons**: React Icons
-- **PDF Generation**: jsPDF
-- **State Management**: React Context API
-- **Persistence**: Browser LocalStorage
+## 🏗️ Architecture & Component Structure
 
-## 🏁 Getting Started
+The application follows a **Page-Based Routing** architecture supported by **Context Providers** for global state management.
 
-### Prerequisites
-- Node.js (v18+ recommended)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd employee-management-system
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. Run the development server:
-   ```bash
-   npm run dev
-   ```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## 🔑 Demo Credentials
-
-Use the following ID cards to log in and test different roles (Password is not required for this demo):
-
-| Role | Employee ID | Permissions |
-|------|-------------|-------------|
-| **Admin** | `EMP001` | Full Access (Manage Employees, Payroll, Tasks) |
-| **HR** | `EMP002` | HR Management (Same as Admin, minus System Config) |
-| **Employee** | `EMP003` | Self Management (Check In/Out, View Tasks/Payroll) |
-
-## 📂 Project Structure
-
+### Directory Structure
 ```
 src/
-├── components/      # Reusable UI components (Buttons, Navbar, Forms)
-├── context/         # Global State (Auth, Employee, Attendance, Task)
-├── data/            # Mock data for initial state
-├── pages/           # Application Routes
-│   ├── index.js     # Login Page
-│   ├── employees.js # Dashboard & Employee List
-│   ├── attendance.js# Attendance History
-│   ├── payroll.js   # Salary Processing
-│   └── tasks.js     # Task Board
-├── styles/          # Global styles (Tailwind)
-└── utils/           # Helper functions (Salary Calc, PDF Generator)
+├── context/               # Global State logic (The "Brain")
+│   ├── AuthContext.js     # User session & role handling
+│   ├── EmployeeContext.js # CRUD for employee data
+│   ├── AttendanceContext.js # Centralized logic for check-ins & stats
+│   └── TaskContext.js     # Task assignment & status updates
+│
+├── pages/                 # Routes (The "Views")
+│   ├── index.js           # Login Page
+│   ├── employees.js       # Main Dashboard (Employee list & Profile)
+│   ├── attendance.js      # Attendance History View
+│   ├── payroll.js         # Salary Processing & PDF Download
+│   └── tasks.js           # Task Board
+│
+├── components/            # Reusable UI Blocks (The "Bricks")
+│   ├── common/            # Navbar, Buttons, Layouts
+│   ├── employees/         # Forms and List tables
+│   ├── attendance/        # CheckInOut Widget, AttendanceTable
+│   └── tasks/             # TaskForm, TaskList
+│
+└── utils/                 # Helpers
+    ├── salaryCalculator.js # Pure logic for salary math
+    └── pdfGenerator.js     # PDF creation logic
 ```
 
-## 🤝 Contributing
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 🚀 Getting Started
+
+### Installation
+1.  Clone the repository:
+    ```bash
+    git clone <repository-url>
+    cd employee-management-system
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the development server:
+    ```bash
+    npm run dev
+    ```
+4.  Open [http://localhost:3000](http://localhost:3000)
+
+### 🔑 Demo Credentials (Permissions)
+
+| Role | Employee ID | Capabilities |
+|------|-------------|--------------|
+| **Admin** | `EMP001` | Full Management (Employees, Payroll, Tasks) |
+| **HR** | `EMP002` | HR Management (Same as Admin) |
+| **Employee** | `EMP003` | Self Service (Check In/Out, View Slips) |
+
+*Note: No password required for this demo.*
+
+## 🔮 Future Improvements
+
+1.  **Backend Integration**: Replace `localStorage` with a real database (PostgreSQL/MongoDB) and Node.js API.
+2.  **Advanced Authentication**: Implement JWT/OAuth for secure, persistent sessions.
+3.  **Leave Management**: Add module for Sick/Casual Leave applications and approval workflows.
+4.  **Analytics Dashboard**: Visual charts for attendance trends and task completion rates.
+
+---
+**Deliverable for**: React Developer Internship Task 2
+**Developed by**: Balaji Bokare
