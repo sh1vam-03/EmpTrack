@@ -1,40 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Employee Management System
 
-## Getting Started
+A modern, responsive Employee Management Dashboard built with **Next.js 15**, **React 19**, and **Tailwind CSS 4**. This application provides role-based access control for Administrators, HR Managers, and Employees to manage attendance, payroll, and tasks efficiently.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 🔐 Authentication & Roles
+- **Role-Based Access Control (RBAC)**: Distinct interfaces for Admin, HR, and Employees.
+- **Secure Login**: Session management using Context API and LocalStorage.
+
+### 👥 Employee Management (Admin/HR)
+- **CRUD Operations**: Add, Edit, and Delete employee records.
+- **Profile Management**: View detailed employee profiles including department and base salary.
+- **Visibility Control**: Admin/HR users manage *only* standard Employees (cannot modify other Admins/HRs).
+
+### 📅 Attendance System
+- **NFC-Style Check In/Out**: Digital "Check In" widget for Employees to mark their daily attendance.
+- **Automatic Tracking**: Records timestamp and status.
+- **History View**: Employees see their own history; Admin/HR can filter and view all Employee attendance records.
+- **Consistency**: Attendance "Present Days" logic is centralized to ensure Payroll accuracy.
+
+### 💰 Payroll Management
+- **Automated Calculation**: Calculates Net Salary based on "Present Days" from the attendance system.
+- **Robust Logic**: Handles salary inputs safely (numbers/strings).
+- **PDF Generation**: Generate and download detailed Salary Slips (via `jspdf`).
+- **Role-Gated**: Only Admin/HR can process payroll; Employees can only view/download their slips.
+
+### 📝 Task Management
+- **Assignment**: Admin/HR can assign tasks to specific Employees.
+- **Tracking**: Status updates (Open -> In Progress -> Completed).
+- **Filtered Views**: Employees see only their tasks; Managers see team tasks.
+
+### 📱 Responsive Design
+- **Mobile First**: Fully optimized for mobile devices (Check In/Out on the go).
+- **Dark Mode**: System-aware or user-toggled dark mode support (via Tailwind).
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15 (Page Router)
+- **UI Library**: React 19
+- **Styling**: Tailwind CSS 4
+- **Icons**: React Icons
+- **PDF Generation**: jsPDF
+- **State Management**: React Context API
+- **Persistence**: Browser LocalStorage
+
+## 🏁 Getting Started
+
+### Prerequisites
+- Node.js (v18+ recommended)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd employee-management-system
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 🔑 Demo Credentials
+
+Use the following ID cards to log in and test different roles (Password is not required for this demo):
+
+| Role | Employee ID | Permissions |
+|------|-------------|-------------|
+| **Admin** | `EMP001` | Full Access (Manage Employees, Payroll, Tasks) |
+| **HR** | `EMP002` | HR Management (Same as Admin, minus System Config) |
+| **Employee** | `EMP003` | Self Management (Check In/Out, View Tasks/Payroll) |
+
+## 📂 Project Structure
+
+```
+src/
+├── components/      # Reusable UI components (Buttons, Navbar, Forms)
+├── context/         # Global State (Auth, Employee, Attendance, Task)
+├── data/            # Mock data for initial state
+├── pages/           # Application Routes
+│   ├── index.js     # Login Page
+│   ├── employees.js # Dashboard & Employee List
+│   ├── attendance.js# Attendance History
+│   ├── payroll.js   # Salary Processing
+│   └── tasks.js     # Task Board
+├── styles/          # Global styles (Tailwind)
+└── utils/           # Helper functions (Salary Calc, PDF Generator)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+## 🤝 Contributing
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
