@@ -97,6 +97,14 @@ Net Salary = Per Day Salary × Days Present
 
 ---
 
+## 📚 Documentation
+- [**Introduction**](docs/01_Introduction.md): Project scope and purpose.
+- [**System Architecture**](docs/02_Architecture.md): Tech stack and design patterns.
+- [**User Manual**](docs/03_User_Manual.md): Detailed guide for all roles.
+- [**Technical Reference**](docs/04_Technical_Reference.md): Setup and troubleshooting.
+
+---
+
 ## 🏗 Architecture & Design
 
 - Page-level components are used for clarity and simplicity.
