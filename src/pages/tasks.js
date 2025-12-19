@@ -55,7 +55,7 @@ export default function Tasks() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
                     {/* --- TASK LIST (Admin sees All, Emp sees Theirs) --- */}
-                    <div className={isAdminOrHR ? "lg:col-span-2" : "lg:col-span-3"}>
+                    <div className={`${isAdminOrHR ? "lg:col-span-2" : "lg:col-span-3"} order-2 lg:order-1`}>
                         <TaskList
                             tasks={displayTasks}
                             employees={employees}
@@ -67,7 +67,7 @@ export default function Tasks() {
 
                     {/* --- ADMIN/HR SIDE: ASSIGN TASK --- */}
                     {isAdminOrHR && (
-                        <div className="lg:col-span-1">
+                        <div className="lg:col-span-1 order-1 lg:order-2">
                             <TaskForm employees={employees.filter(e => e.role === 'Employee')} onAssign={handleAssign} />
                         </div>
                     )}
