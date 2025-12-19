@@ -24,7 +24,7 @@ export default function TaskList({ tasks, employees, currentUser, onUpdateStatus
                 {tasks.length > 0 ? (
                     tasks.map(task => (
                         <div key={task.id} className="p-4 hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors group">
-                            <div className="flex justify-between items-start mb-2">
+                            <div className="flex flex-col sm:flex-row justify-between items-start mb-2 gap-4">
                                 <div>
                                     <h3 className="font-bold text-gray-900 dark:text-white">{task.title}</h3>
                                     <div className="text-xs text-gray-500 dark:text-zinc-400 mt-1 flex flex-wrap gap-2">
@@ -41,7 +41,7 @@ export default function TaskList({ tasks, employees, currentUser, onUpdateStatus
                                 </div>
 
                                 {/* Status Control */}
-                                <div>
+                                <div className="w-full sm:w-auto flex justify-end sm:block">
                                     {currentUser.id === task.assignedTo || isAdminOrHR ? (
                                         <select
                                             className={`text-xs font-bold uppercase py-1 px-2 rounded border-0 cursor-pointer outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-200 dark:focus:ring-blue-900 ${statusColors[task.status]}`}

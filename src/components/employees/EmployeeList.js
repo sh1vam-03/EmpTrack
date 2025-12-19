@@ -1,7 +1,7 @@
 
 export default function EmployeeList({ employees, onEdit, onDelete }) {
     return (
-        <div className="overflow-hidden border border-gray-200 dark:border-zinc-700 rounded-xl">
+        <div className="overflow-x-auto border border-gray-200 dark:border-zinc-700 rounded-xl">
             <table className="w-full text-left text-sm">
                 <thead className="bg-gray-50 dark:bg-zinc-900/50 text-gray-500 dark:text-zinc-400 text-xs uppercase font-semibold">
                     <tr>

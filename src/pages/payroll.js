@@ -107,7 +107,7 @@ export default function Payroll() {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-zinc-900 pb-12 transition-colors duration-300">
             <Navbar />
-            <div className="container mx-auto p-6 max-w-7xl">
+            <div className="container mx-auto p-4 md:p-6 max-w-7xl">
                 <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end">
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Payroll Management</h1>
@@ -143,7 +143,7 @@ export default function Payroll() {
                 </header>
 
                 {/* Payroll List */}
-                <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-gray-200 dark:border-zinc-700 overflow-hidden text-sm transition-colors duration-300">
+                <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-gray-200 dark:border-zinc-700 overflow-x-auto text-sm transition-colors duration-300">
                     {displayPayrolls.length > 0 ? (
                         <table className="w-full text-left text-sm">
                             <thead className="bg-gray-50 dark:bg-zinc-900/50 text-gray-500 dark:text-zinc-400 text-xs uppercase font-semibold">

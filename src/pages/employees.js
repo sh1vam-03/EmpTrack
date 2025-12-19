@@ -73,7 +73,7 @@ export default function Employees() {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-zinc-900 pb-12 transition-colors duration-300">
             <Navbar />
-            <div className="container mx-auto p-6 max-w-7xl">
+            <div className="container mx-auto p-4 md:p-6 max-w-7xl">
 
                 {/* --- HEADER / USER INFO --- */}
                 {/* Note: Could extract Header to sub-component too if complex */}

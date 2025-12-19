@@ -32,7 +32,7 @@ export default function EmployeeForm({ onSubmit, initialData, isEditing, onCance
                 {isEditing ? 'Edit Existing Employee' : 'Add New Employee'}
                 {isEditing && <span className="text-orange-500 text-xs">Editing Mode</span>}
             </h3>
-            <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div className="col-span-1">
                     <input required name="id" placeholder="Employee ID" value={formData.id} onChange={handleChange} className="w-full p-2.5 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-600 rounded-lg text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder-gray-400 dark:placeholder-zinc-500" disabled={!!isEditing} />
                 </div>

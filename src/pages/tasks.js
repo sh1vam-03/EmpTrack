@@ -44,7 +44,7 @@ export default function Tasks() {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-zinc-900 pb-12 transition-colors duration-300">
             <Navbar />
-            <div className="container mx-auto p-6 max-w-7xl">
+            <div className="container mx-auto p-4 md:p-6 max-w-7xl">
                 <header className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Task Management</h1>
                     <p className="text-gray-500 dark:text-zinc-400">
