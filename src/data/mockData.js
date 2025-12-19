@@ -38,10 +38,13 @@ export const initialAttendanceHistory = [
 ];
 
 export const initialTasks = [
-    { id: 1, title: "Develop Navbar", assignedTo: "EMP001", assignedBy: "HR001", status: "Completed", dueDate: "2025-12-20" },
-    { id: 2, title: "Update Navbar Logic", assignedTo: "EMP001", assignedBy: "HR001", status: "Open", dueDate: "2025-12-22" },
-    { id: 3, title: "Review New Product", assignedTo: "EMP002", assignedBy: "HR001", status: "In Progress", dueDate: "2025-12-22" },
-    { id: 4, title: "Rate New Product", assignedTo: "EMP002", assignedBy: "HR001", status: "Open", dueDate: "2025-12-23" }
+    { id: 1, title: "Update Homepage Text", assignedTo: "EMP001", assignedBy: "AD001", status: "Completed", dueDate: "2025-12-20" },
+    { id: 2, title: "Fix Login Page Bug", assignedTo: "EMP001", assignedBy: "HR001", status: "In Progress", dueDate: "2025-12-22" },
+    { id: 3, title: "Update Navbar Logic", assignedTo: "EMP001", assignedBy: "HR001", status: "Open", dueDate: "2025-12-22" },
+    { id: 4, title: "Social Media Posting", assignedTo: "EMP002", assignedBy: "HR001", status: "In Progress", dueDate: "2025-12-22" },
+    { id: 5, title: "Newsletter Draft", assignedTo: "EMP002", assignedBy: "HR001", status: "Open", dueDate: "2025-12-23" },
+    { id: 6, title: "Follow-up with 10 New Leads", assignedTo: "EMP003", assignedBy: "HR001", status: "In Progress", dueDate: "2025-12-22" },
+
 
 ];
 

@@ -57,7 +57,7 @@ export default function CheckInOut({ status, onCheckIn, onCheckOut, nfcId }) {
                         <div className="mb-4">
                             <input
                                 type="text"
-                                placeholder="Enter NFC ID (e.g. NFC003)"
+                                placeholder="Enter NFC ID (e.g. NFC001)"
                                 value={enteredId}
                                 onChange={(e) => { setEnteredId(e.target.value); setError(''); }}
                                 className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white text-center tracking-widest outline-none focus:border-blue-500 transition-colors"
