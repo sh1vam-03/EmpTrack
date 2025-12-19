@@ -54,11 +54,11 @@ export default function LoginForm() {
                     <div className="mt-6 text-xs text-gray-400 bg-gray-100 dark:bg-zinc-900 p-3 rounded">
                         <p className="font-bold mb-1">Demo Credentials:</p>
                         <p>Admin: AD001</p>
-                        <p>HR: HR002</p>
-                        <p>Employee 1: EMP003</p>
-                        <p>Employee 2: EMP004</p>
-                        <p>Employee 3: EMP005</p>
-                        <p>Employee 4: EMP006</p>
+                        <p>HR: HR001</p>
+                        <p>Employee 1: EMP001</p>
+                        <p>Employee 2: EMP002</p>
+                        <p>Employee 3: EMP003</p>
+                        <p>Employee 4: EMP004</p>
                     </div>
                 </form>
             </div>

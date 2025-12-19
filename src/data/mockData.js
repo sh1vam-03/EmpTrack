@@ -1,10 +1,10 @@
 export const initialEmployees = [
     { id: "AD001", name: 'Rahul Sharma', department: 'IT', role: "Admin" },
-    { id: "HR002", name: 'Ravi Kumar', department: 'HR', role: "HR" },
-    { id: "EMP003", name: 'Rohit Gupta', department: 'Development', role: "Employee", salary: 6000, nfc: "NFC003" },
-    { id: "EMP004", name: 'Priya Singh', department: 'Marketing', role: "Employee", salary: 15000, nfc: "NFC004" },
-    { id: "EMP005", name: 'Amit Patel', department: 'Sales', role: "Employee", salary: 12000, nfc: "NFC005" },
-    { id: "EMP006", name: 'Sneha Reddy', department: 'Design', role: "Employee", salary: 10000, nfc: "NFC006" },
+    { id: "HR001", name: 'Ravi Kumar', department: 'HR', role: "HR" },
+    { id: "EMP001", name: 'Rohit Gupta', department: 'Development', role: "Employee", salary: 6000, nfc: "NFC001" },
+    { id: "EMP002", name: 'Priya Singh', department: 'Marketing', role: "Employee", salary: 15000, nfc: "NFC002" },
+    { id: "EMP003", name: 'Amit Patel', department: 'Sales', role: "Employee", salary: 12000, nfc: "NFC003" },
+    { id: "EMP004", name: 'Sneha Reddy', department: 'Design', role: "Employee", salary: 10000, nfc: "NFC004" },
 ];
 
 
@@ -31,15 +31,18 @@ const generateAttendance = (empId, daysPresent) => {
 };
 
 export const initialAttendanceHistory = [
-    ...generateAttendance("EMP003", 7), // 7 Days Present
-    ...generateAttendance("EMP004", 5), // 5 Days Present
-    ...generateAttendance("EMP005", 15), // 15 Days Present
-    ...generateAttendance("EMP006", 11), // 11 Days Present
+    ...generateAttendance("EMP001", 7), // 7 Days Present
+    ...generateAttendance("EMP002", 5), // 5 Days Present
+    ...generateAttendance("EMP003", 15), // 15 Days Present
+    ...generateAttendance("EMP004", 11), // 11 Days Present
 ];
 
 export const initialTasks = [
-    { id: 1, title: "Update Navbar Logic", assignedTo: "EMP003", assignedBy: "EMP001", status: "Open", dueDate: "2025-12-20" },
-    { id: 2, title: "Review Payroll Specs", assignedTo: "EMP002", assignedBy: "EMP001", status: "In Progress", dueDate: "2025-12-22" }
+    { id: 1, title: "Develop Navbar", assignedTo: "EMP001", assignedBy: "HR001", status: "Completed", dueDate: "2025-12-20" },
+    { id: 2, title: "Update Navbar Logic", assignedTo: "EMP001", assignedBy: "HR001", status: "Open", dueDate: "2025-12-22" },
+    { id: 3, title: "Review New Product", assignedTo: "EMP002", assignedBy: "HR001", status: "In Progress", dueDate: "2025-12-22" },
+    { id: 4, title: "Rate New Product", assignedTo: "EMP002", assignedBy: "HR001", status: "Open", dueDate: "2025-12-23" }
+
 ];
 
 export const initialPayrolls = [];
