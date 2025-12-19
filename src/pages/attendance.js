@@ -85,7 +85,6 @@ export default function Attendance() {
                     </div>
                 </div>
 
-                {/* Table */}
                 <AttendanceTable history={filteredHistory} employees={employees} />
             </div>
         </div>

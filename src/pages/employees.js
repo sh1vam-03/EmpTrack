@@ -76,7 +76,6 @@ export default function Employees() {
             <div className="container mx-auto p-4 md:p-6 max-w-7xl">
 
                 {/* --- HEADER / USER INFO --- */}
-                {/* Note: Could extract Header to sub-component too if complex */}
                 <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end bg-white dark:bg-zinc-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-700 transition-colors duration-300">
                     <div>
                         <div className="text-sm text-gray-400 dark:text-zinc-500 font-medium mb-1">WELCOME BACK</div>

@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 
 
 export default function Navbar() {
-    const { currentUser } = useAuth(); // If needed for conditional rendering (e.g. login/logout)
+    const { currentUser } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {

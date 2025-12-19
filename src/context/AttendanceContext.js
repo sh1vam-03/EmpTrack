@@ -21,7 +21,6 @@ export function AttendanceProvider({ children }) {
                 const stored = localStorage.getItem('attendanceHistory');
                 if (stored) {
                     const parsed = JSON.parse(stored);
-                    // Merge new initial history if not present (simple ID check)
                     const uniqueNew = initialAttendanceHistory.filter(init =>
                         !parsed.some(p => p.id === init.id)
                     );
@@ -46,14 +45,14 @@ export function AttendanceProvider({ children }) {
 
     const markAttendance = (status) => {
         if (!currentUser) return;
-        // Use consistent 12-hour format with AM/PM to match mock data
+        // Use consistent 12-hour format with AM/PM
         const timestamp = new Date().toLocaleTimeString('en-US', {
             hour: 'numeric',
             minute: '2-digit',
             second: '2-digit',
             hour12: true
         });
-        // Use YYYY-MM-DD to match mock data and ensure correct parsing
+        // Use YYYY-MM-DD to ensure correct parsing
         const today = new Date().toISOString().split('T')[0];
 
         const todayRecord = attendanceHistory.find(r => r.empId === currentUser.id && r.date === today);

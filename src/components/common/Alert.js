@@ -7,7 +7,7 @@ export default function Alert({ message, type = 'info', onClose }) {
     useEffect(() => {
         // Trigger enter animation
         setIsVisible(true);
-        return () => setIsVisible(false); // Clean up
+        return () => setIsVisible(false);
     }, []);
 
     const getStyles = () => {

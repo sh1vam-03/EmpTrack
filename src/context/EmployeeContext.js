@@ -20,7 +20,6 @@ export function EmployeeProvider({ children }) {
 
     useEffect(() => {
         // Load state from localStorage on mount
-        // Load state from localStorage on mount
         const loadState = () => {
             try {
                 const storedEmployees = localStorage.getItem('employees');

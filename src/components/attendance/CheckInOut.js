@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiSmartphone, FiRadio, FiLogIn, FiLogOut, FiCheckCircle } from 'react-icons/fi';
+import { FiSmartphone, FiRadio, FiLogIn, FiLogOut, FiCheckCircle, FiXCircle } from 'react-icons/fi';
 
 export default function CheckInOut({ status, onCheckIn, onCheckOut, nfcId }) {
     const [enteredId, setEnteredId] = useState('');
@@ -11,7 +11,7 @@ export default function CheckInOut({ status, onCheckIn, onCheckOut, nfcId }) {
             return;
         }
         if (enteredId.trim() !== nfcId) {
-            setError('❌ ID mismatch! Access Denied.');
+            setError(<span className="flex items-center gap-1"><FiXCircle /> ID mismatch! Access Denied.</span>);
             return;
         }
         setError('');
