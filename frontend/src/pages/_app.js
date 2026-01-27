@@ -8,18 +8,18 @@ import { ConfirmProvider } from "../context/ConfirmContext";
 
 export default function App({ Component, pageProps }) {
   return (
-    <AlertProvider>
-      <ConfirmProvider>
-        <EmployeeProvider>
-          <AuthProvider>
+    <AuthProvider>
+      <AlertProvider>
+        <ConfirmProvider>
+          <EmployeeProvider>
             <AttendanceProvider>
               <TaskProvider>
                 <Component {...pageProps} />
               </TaskProvider>
             </AttendanceProvider>
-          </AuthProvider>
-        </EmployeeProvider>
-      </ConfirmProvider>
-    </AlertProvider>
+          </EmployeeProvider>
+        </ConfirmProvider>
+      </AlertProvider>
+    </AuthProvider>
   );
 }
