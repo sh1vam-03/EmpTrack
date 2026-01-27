@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import api from '../utils/api';
-import GradientDivider from '../components/login/GradientDivider'; // Reusing layout maybe? Or dedicated layout.
-// Let's create a dedicated simple layout for Signup.
+import AuthLayout from '../components/auth/AuthLayout';
+import AuthInput from '../components/auth/AuthInput';
+import { FiUser, FiMail, FiBriefcase, FiLock, FiShield } from 'react-icons/fi';
 
 export default function Signup() {
     const [formData, setFormData] = useState({
@@ -13,6 +15,7 @@ export default function Signup() {
         password: ''
     });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const handleChange = (e) => {
@@ -21,56 +24,118 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError('');
+
         try {
-            const { data } = await api.post('/auth/signup', formData);
-            // Auto login or redirect to login? 
-            // Usually redirect to login.
+            await api.post('/auth/signup', formData);
+            // Redirect to login on success
             router.push('/login');
         } catch (err) {
-            setError(err.response?.data?.message || 'Signup failed');
+            setError(err.response?.data?.message || 'Signup failed. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-zinc-900 w-full max-w-lg p-8 rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Register Organization</h1>
-
-                {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Organization Name</label>
-                        <input type="text" name="orgName" required onChange={handleChange} className="w-full mt-1 p-2 border rounded dark:bg-black dark:border-zinc-700 dark:text-white" />
+        <AuthLayout
+            title="Start your free trial"
+            subtitle="Create an organization to start managing your team."
+        >
+            <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                    <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900 text-red-600 dark:text-red-400 text-sm font-medium text-center">
+                        {error}
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Organization Email</label>
-                        <input type="email" name="orgEmail" required onChange={handleChange} className="w-full mt-1 p-2 border rounded dark:bg-black dark:border-zinc-700 dark:text-white" />
-                    </div>
+                )}
 
-                    <hr className="my-6 border-gray-200 dark:border-zinc-700" />
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Admin Name</label>
-                        <input type="text" name="adminName" required onChange={handleChange} className="w-full mt-1 p-2 border rounded dark:bg-black dark:border-zinc-700 dark:text-white" />
+                {/* Organization Details */}
+                <div className="space-y-4">
+                    <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest border-b border-gray-100 dark:border-zinc-800 pb-2 mb-3">Organization Info</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <AuthInput
+                            label="Organization Name"
+                            type="text"
+                            name="orgName"
+                            placeholder="Acme Corp"
+                            value={formData.orgName}
+                            onChange={handleChange}
+                            icon={FiBriefcase}
+                            required
+                        />
+                        <AuthInput
+                            label="Org Email"
+                            type="email"
+                            name="orgEmail"
+                            placeholder="contact@acme.com"
+                            value={formData.orgEmail}
+                            onChange={handleChange}
+                            icon={FiMail}
+                            required
+                        />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Admin Email</label>
-                        <input type="email" name="adminEmail" required onChange={handleChange} className="w-full mt-1 p-2 border rounded dark:bg-black dark:border-zinc-700 dark:text-white" />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-                        <input type="password" name="password" required onChange={handleChange} className="w-full mt-1 p-2 border rounded dark:bg-black dark:border-zinc-700 dark:text-white" />
-                    </div>
-
-                    <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded transition-colors">
-                        Sign Up
-                    </button>
-                </form>
-                <div className="mt-4 text-center">
-                    <p className="text-gray-600 dark:text-gray-400">Already have an account? <span onClick={() => router.push('/login')} className="text-blue-500 cursor-pointer hover:underline">Login</span></p>
                 </div>
+
+                {/* Admin Details */}
+                <div className="space-y-4">
+                    <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest border-b border-gray-100 dark:border-zinc-800 pb-2 mb-3">Admin Account</h3>
+                    <div className="gap-4 grid grid-cols-1">
+                        <AuthInput
+                            label="Full Name"
+                            type="text"
+                            name="adminName"
+                            placeholder="John Doe"
+                            value={formData.adminName}
+                            onChange={handleChange}
+                            icon={FiUser}
+                            required
+                        />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <AuthInput
+                                label="Work Email"
+                                type="email"
+                                name="adminEmail"
+                                placeholder="john@acme.com"
+                                value={formData.adminEmail}
+                                onChange={handleChange}
+                                icon={FiShield}
+                                required
+                            />
+                            <AuthInput
+                                label="Password"
+                                type="password"
+                                name="password"
+                                placeholder="••••••••"
+                                value={formData.password}
+                                onChange={handleChange}
+                                icon={FiLock}
+                                required
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="pt-2">
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className={`w-full bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-500/30 transform hover:scale-[1.02] transition-all flex items-center justify-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    >
+                        {loading ? 'Creating Account...' : 'Create Organization'}
+                    </button>
+                    <p className="text-xs text-center text-gray-400 mt-4">
+                        By signing up, you agree to our Terms of Service and Privacy Policy.
+                    </p>
+                </div>
+            </form>
+
+            <div className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                Already have an account?{" "}
+                <Link href="/login" className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+                    Sign in
+                </Link>
             </div>
-        </div>
+        </AuthLayout>
     );
 }
