@@ -1,72 +1,83 @@
+import { FiClock, FiCheckCircle, FiCircle, FiAlertCircle } from 'react-icons/fi';
 
 export default function TaskList({ tasks, employees, currentUser, onUpdateStatus, isAdminOrHR }) {
 
-    const getEmpName = (id) => employees.find(e => e.id === id)?.name || id;
+    if (tasks.length === 0) {
+        return (
+            <div className="text-center py-20 bg-gray-50 dark:bg-zinc-800/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-zinc-700">
+                <div className="w-16 h-16 bg-gray-100 dark:bg-zinc-700 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
+                    <FiCheckCircle className="text-3xl" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300">No Tasks Found</h3>
+                <p className="text-gray-500 dark:text-gray-500">Tasks assigned to you or your team will appear here.</p>
+            </div>
+        );
+    }
 
-    const statusColors = {
-        'Open': 'bg-gray-100 text-gray-700 dark:bg-zinc-700 dark:text-zinc-300',
-        'In Progress': 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-        'Completed': 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'Completed': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 border-green-200 dark:border-green-800';
+            case 'In Progress': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-200 dark:border-blue-800';
+            default: return 'bg-gray-100 text-gray-700 dark:bg-zinc-700 dark:text-gray-300 border-gray-200 dark:border-zinc-600';
+        }
     };
 
     return (
-        <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-gray-200 dark:border-zinc-700 overflow-hidden transition-colors duration-300">
-            <div className="p-4 bg-gray-50 dark:bg-zinc-900/50 border-b border-gray-100 dark:border-zinc-700 flex justify-between items-center">
-                <h2 className="font-bold text-gray-700 dark:text-zinc-200">
-                    {isAdminOrHR ? 'All Tasks Overview' : 'My Assigned Tasks'}
-                </h2>
-                <span className="text-xs font-medium text-gray-400 dark:text-zinc-500 bg-white dark:bg-zinc-800 px-2 py-1 rounded border dark:border-zinc-700">
-                    {tasks.length} Todos
-                </span>
-            </div>
+        <div className="grid grid-cols-1 gap-4">
+            {tasks.map((task) => {
+                const assigneeName = typeof task.assignedTo === 'object' ? task.assignedTo.name : employees.find(e => e.id === task.assignedTo || e._id === task.assignedTo)?.name || 'Unknown';
+                const assignerName = typeof task.assignedBy === 'object' ? task.assignedBy.name : employees.find(e => e.id === task.assignedBy || e._id === task.assignedBy)?.name || 'Unknown';
 
-            <div className="divide-y divide-gray-100 dark:divide-zinc-700">
-                {tasks.length > 0 ? (
-                    tasks.map(task => (
-                        <div key={task.id} className="p-4 hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors group">
-                            <div className="flex flex-col sm:flex-row justify-between items-start mb-2 gap-4">
-                                <div>
-                                    <h3 className="font-bold text-gray-900 dark:text-white">{task.title}</h3>
-                                    <div className="text-xs text-gray-500 dark:text-zinc-400 mt-1 flex flex-wrap gap-2">
-                                        <span>Due: {task.dueDate}</span>
-                                        <span className="text-gray-300 dark:text-zinc-600">|</span>
-                                        <span>Assigned To: <span className="text-gray-700 dark:text-zinc-300 font-medium">{getEmpName(task.assignedTo)}</span></span>
-                                        {isAdminOrHR && (
-                                            <>
-                                                <span className="text-gray-300 dark:text-zinc-600">|</span>
-                                                <span>By: {getEmpName(task.assignedBy)}</span>
-                                            </>
-                                        )}
-                                    </div>
-                                </div>
+                return (
+                    <div key={task._id || task.id} className="bg-white dark:bg-zinc-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-zinc-800 hover:shadow-md transition-shadow relative overflow-hidden group">
+                        <div className={`absolute top-0 left-0 w-1 h-full ${task.status === 'Completed' ? 'bg-green-500' : task.status === 'In Progress' ? 'bg-blue-500' : 'bg-gray-300'}`} />
 
-                                {/* Status Control */}
-                                <div className="w-full sm:w-auto flex justify-end sm:block">
-                                    {currentUser.id === task.assignedTo || isAdminOrHR ? (
-                                        <select
-                                            className={`text-xs font-bold uppercase py-1 px-2 rounded border-0 cursor-pointer outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-200 dark:focus:ring-blue-900 ${statusColors[task.status]}`}
-                                            value={task.status}
-                                            onChange={(e) => onUpdateStatus(task.id, e.target.value)}
-                                        >
-                                            <option value="Open">Open</option>
-                                            <option value="In Progress">In Progress</option>
-                                            <option value="Completed">Completed</option>
-                                        </select>
-                                    ) : (
-                                        <span className={`text-xs font-bold uppercase py-1 px-2 rounded ${statusColors[task.status]}`}>
-                                            {task.status}
+                        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
+                            <div className="flex-1">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <span className={`px-2.5 py-1 rounded-full text-xs font-bold border flex items-center gap-1.5 ${getStatusColor(task.status)}`}>
+                                        {task.status === 'Completed' ? <FiCheckCircle /> : task.status === 'In Progress' ? <FiClock /> : <FiAlertCircle />}
+                                        {task.status}
+                                    </span>
+                                    {task.dueDate && (
+                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                                            <FiClock /> Due: {new Date(task.dueDate).toLocaleDateString()}
                                         </span>
                                     )}
                                 </div>
+                                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">{task.title}</h3>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                    Assigned to <span className="font-semibold text-gray-700 dark:text-gray-300">{assigneeName}</span> by <span className="text-gray-500">{assignerName}</span>
+                                </p>
+                            </div>
+
+                            <div className="flex items-center gap-3">
+                                {/* Actions Area */}
+                                {(isAdminOrHR || (task.assignedTo === currentUser.id || task.assignedTo._id === currentUser.id)) && (
+                                    <div className="flex gap-2">
+                                        {task.status !== 'In Progress' && task.status !== 'Completed' && (
+                                            <button
+                                                onClick={() => onUpdateStatus(task._id || task.id, 'In Progress')}
+                                                className="px-4 py-2 text-sm font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors"
+                                            >
+                                                Start
+                                            </button>
+                                        )}
+                                        {task.status !== 'Completed' && (
+                                            <button
+                                                onClick={() => onUpdateStatus(task._id || task.id, 'Completed')}
+                                                className="px-4 py-2 text-sm font-medium bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors"
+                                            >
+                                                Complete
+                                            </button>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
-                    ))
-                ) : (
-                    <div className="p-12 text-center text-gray-400 dark:text-zinc-500">
-                        <p>No tasks found.</p>
                     </div>
-                )}
-            </div>
+                );
+            })}
         </div>
     );
 }
