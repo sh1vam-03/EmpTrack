@@ -4,6 +4,7 @@ const connectDB = require('./config/db');
 const Employee = require('./models/Employee');
 const Attendance = require('./models/Attendance');
 const Task = require('./models/Task');
+const Organization = require('./models/Organization');
 
 dotenv.config();
 
@@ -12,9 +13,17 @@ const importData = async () => {
         await Employee.deleteMany();
         await Attendance.deleteMany();
         await Task.deleteMany();
+        await Organization.deleteMany();
+
+        const org = await Organization.create({
+            name: 'Demo Corp',
+            email: 'admin@democorp.com',
+            address: '123 Tech Park'
+        });
 
         const employees = [
             {
+                organization: org._id,
                 name: 'Rahul Sharma',
                 email: 'admin@example.com',
                 password: '123', // Will be hashed
@@ -25,6 +34,7 @@ const importData = async () => {
                 nfc: 'NFC_ADMIN'
             },
             {
+                organization: org._id,
                 name: 'Ravi Kumar',
                 email: 'hr@example.com',
                 password: '123',
@@ -35,6 +45,7 @@ const importData = async () => {
                 nfc: 'NFC_HR'
             },
             {
+                organization: org._id,
                 name: 'Rohit Gupta',
                 email: 'rohit@example.com',
                 password: '123',
@@ -61,6 +72,7 @@ const destroyData = async () => {
         await Employee.deleteMany();
         await Attendance.deleteMany();
         await Task.deleteMany();
+        await Organization.deleteMany();
 
         console.log('Data Destroyed!');
         process.exit();

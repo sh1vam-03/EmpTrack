@@ -4,7 +4,8 @@ const Employee = require('../models/Employee');
 // @route   GET /api/employees
 // @access  Private/Admin/HR
 const getEmployees = async (req, res) => {
-    const employees = await Employee.find({});
+    // Only get employees from the same organization
+    const employees = await Employee.find({ organization: req.user.organization });
     res.json(employees);
 };
 
@@ -14,14 +15,18 @@ const getEmployees = async (req, res) => {
 const registerEmployee = async (req, res) => {
     const { name, email, password, role, department, employeeId, salary, nfc } = req.body;
 
-    const employeeExists = await Employee.findOne({ employeeId });
+    const employeeExists = await Employee.findOne({
+        employeeId,
+        organization: req.user.organization // ID unique per org
+    });
 
     if (employeeExists) {
-        res.status(400).json({ message: 'Employee already exists' });
+        res.status(400).json({ message: 'Employee ID already exists in this organization' });
         return;
     }
 
     const employee = await Employee.create({
+        organization: req.user.organization,
         name,
         email,
         password, // Will be hashed by middleware
@@ -48,7 +53,7 @@ const registerEmployee = async (req, res) => {
 // @route   PUT /api/employees/:id
 // @access  Private/Admin/HR
 const updateEmployee = async (req, res) => {
-    const employee = await Employee.findById(req.params.id);
+    const employee = await Employee.findOne({ _id: req.params.id, organization: req.user.organization });
 
     if (employee) {
         employee.name = req.body.name || employee.name;
@@ -73,7 +78,7 @@ const updateEmployee = async (req, res) => {
 // @route   DELETE /api/employees/:id
 // @access  Private/Admin/HR
 const deleteEmployee = async (req, res) => {
-    const employee = await Employee.findById(req.params.id);
+    const employee = await Employee.findOne({ _id: req.params.id, organization: req.user.organization });
 
     if (employee) {
         await employee.deleteOne();

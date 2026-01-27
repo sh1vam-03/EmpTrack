@@ -54,7 +54,7 @@ export function AuthProvider({ children }) {
     const logout = () => {
         setCurrentUser(null);
         localStorage.removeItem('currentUser');
-        router.push('/');
+        router.push('/login');
     };
 
     const value = {

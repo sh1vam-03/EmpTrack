@@ -5,18 +5,24 @@ const Employee = require('../models/Employee');
 // @route   POST /api/attendance
 // @access  Public (for simulation) or Private
 const markAttendance = async (req, res) => {
-    // In this simulation, we might receive employeeId from the body (like NFC tag)
-    // OR we use req.user.id if logged in.
-    // The requirement says "RFID/NFC–based attendance (simulated) ... manually entering the RFID/NFC ID"
-
     const { nfc, employeeId } = req.body;
-    let employee;
 
-    if (nfc) {
-        employee = await Employee.findOne({ nfc });
-    } else if (employeeId) {
-        employee = await Employee.findOne({ employeeId });
+    // In strict auth mode, we might want to ensure the requester is from the same org
+    // But for simulated NFC (public endpoint), we find employee globally OR within an org if we passed orgId.
+    // However, NFCs should be globally unique or we assume they are unique enough.
+    // Let's assume NFC/EmployeeID is unique enough or we find the FIRST match.
+    // BUT better: if logged in (manual checkin), use req.user.organization.
+
+    let query = {};
+    if (nfc) query.nfc = nfc;
+    if (employeeId) query.employeeId = employeeId;
+
+    // If authenticated (e.g. Employee self check-in from dashboard), restrict to their org
+    if (req.user) {
+        query.organization = req.user.organization;
     }
+
+    const employee = await Employee.findOne(query);
 
     if (!employee) {
         res.status(404).json({ message: 'Employee not found' });
@@ -56,10 +62,16 @@ const markAttendance = async (req, res) => {
 // @route   GET /api/attendance
 // @access  Private
 const getAttendance = async (req, res) => {
-    // If admin, get all. If employee, get own.
+    // Admin/HR see all in Org. Employee sees self.
+
     let query = {};
     if (req.user.role === 'Employee') {
         query.employee = req.user._id;
+    } else {
+        // Find all employees in this org
+        const orgEmployees = await Employee.find({ organization: req.user.organization }).select('_id');
+        const empIds = orgEmployees.map(e => e._id);
+        query.employee = { $in: empIds };
     }
 
     const attendance = await Attendance.find(query).populate('employee', 'name employeeId role');

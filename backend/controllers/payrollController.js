@@ -19,7 +19,7 @@ const getPayroll = async (req, res) => {
     if (req.user.role === 'Employee') {
         employees = [req.user];
     } else {
-        employees = await Employee.find({});
+        employees = await Employee.find({ organization: req.user.organization });
     }
 
     const payrollData = [];
