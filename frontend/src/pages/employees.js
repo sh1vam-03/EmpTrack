@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import Navbar from "../components/common/Navbar";
+import Layout from '../components/common/Layout';
 import { useEmployees } from '../context/EmployeeContext';
 import { useAuth } from '../context/AuthContext';
 import { useAttendance } from '../context/AttendanceContext';
@@ -25,7 +24,7 @@ export default function Employees() {
 
     useEffect(() => {
         if (!loading && !currentUser) {
-            router.push('/');
+            router.push('/login'); // Fixed redirect
         }
     }, [currentUser, router, loading]);
 
@@ -45,7 +44,7 @@ export default function Employees() {
     };
 
     const handleEdit = (emp) => {
-        setIsEditing(emp.id);
+        setIsEditing(emp.id || emp._id); // Handle both id formats if needed
         setInitialData(emp);
     };
 
@@ -61,93 +60,82 @@ export default function Employees() {
         }
     };
 
-    const handleLogout = () => {
-        logout();
-        router.push('/');
-    };
-
     const isAdmin = currentUser.role === 'Admin';
     const isHR = currentUser.role === 'HR';
     const isEmployee = currentUser.role === 'Employee';
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-zinc-900 pb-12 transition-colors duration-300">
-            <Navbar />
-            <div className="container mx-auto p-4 md:p-6 max-w-7xl">
-
-                {/* --- HEADER / USER INFO --- */}
-                <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end bg-white dark:bg-zinc-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-700 transition-colors duration-300">
-                    <div>
-                        <div className="text-sm text-gray-400 dark:text-zinc-500 font-medium mb-1">WELCOME BACK</div>
-                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">{currentUser.name}</h1>
-                        <div className="flex flex-wrap gap-3 text-sm font-medium">
-                            <span className="bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-zinc-300 px-3 py-1 rounded-md border border-gray-200 dark:border-zinc-600">ID: {currentUser.id}</span>
-                            <span className={`px-3 py-1 rounded-md border ${isAdmin ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-100 dark:border-purple-800' :
-                                isHR ? 'bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 border-orange-100 dark:border-orange-800' :
-                                    'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-100 dark:border-blue-800'
-                                }`}>Role: {currentUser.role}</span>
-
-                            {!isAdmin && !isHR && (
-                                <>
-                                    <span className="bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-md border border-green-100 dark:border-green-800">Dept: {currentUser.department}</span>
-                                    <span className="bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 px-3 py-1 rounded-md border border-yellow-100 dark:border-yellow-800">Salary: ₹{currentUser.salary}</span>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                    <div className="mt-6 md:mt-0 flex flex-col items-end">
-                        <button
-                            onClick={handleLogout}
-                            className="flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg transition-colors font-medium border border-red-100 dark:border-red-900/50"
-                        >
-                            Logout
-                        </button>
-                    </div>
-                </header>
-
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* --- LEFT COLUMN: MANAGEMENT (Admin & HR) --- */}
-                    {(isAdmin || isHR) && (
-                        <div className="lg:col-span-3 space-y-8">
-                            <div className="bg-white dark:bg-zinc-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-700 transition-colors duration-300">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-                                        <FiUsers className="text-2xl" /> <span>Employee Management</span>
-                                    </h2>
-                                    <span className="bg-gray-100 dark:bg-zinc-700 text-gray-500 dark:text-zinc-400 text-xs px-2 py-1 rounded">Admin & HR Access</span>
-                                </div>
-
-                                <EmployeeForm
-                                    onSubmit={handleSubmit}
-                                    isEditing={isEditing}
-                                    initialData={initialData}
-                                    onCancel={() => { setIsEditing(null); setInitialData(null); }}
-                                />
-
-                                <EmployeeList
-                                    employees={employees.filter(e => e.role === 'Employee')}
-                                    onEdit={handleEdit}
-                                    onDelete={handleDelete}
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    {/* --- RIGHT COLUMN: NFC ATTENDANCE (Employee ONLY) --- */}
-                    {isEmployee && (
-                        <div className="lg:col-span-1 lg:col-start-2">
-                            <div className="sticky top-6">
-                                <CheckInOut
-                                    status={currentAttendanceStatus}
-                                    onCheckIn={() => markAttendance('Check In')}
-                                    onCheckOut={() => markAttendance('Check Out')}
-                                    nfcId={currentUser.nfc}
-                                />
-                            </div>
-                        </div>
-                    )}
+        <Layout>
+            {/* Header */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div>
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Employee Management</h1>
+                    <p className="text-gray-500 dark:text-zinc-400">Manage your organization's workforce.</p>
                 </div>
             </div>
-        </div>
+
+            {/* Profile / Stats Card for Logged In User */}
+            <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-zinc-800 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-white text-2xl font-bold">
+                        {currentUser.name.charAt(0)}
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-bold text-gray-800 dark:text-white">{currentUser.name}</h2>
+                        <div className="flex gap-2 text-xs font-semibold mt-1">
+                            <span className="px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300">
+                                {currentUser.role}
+                            </span>
+                            <span className="px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
+                                {currentUser.department}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* --- LEFT COLUMN: MANAGEMENT (Admin & HR) --- */}
+                {(isAdmin || isHR) && (
+                    <div className="lg:col-span-3 space-y-8">
+                        <div className="bg-white dark:bg-zinc-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-700 transition-colors duration-300">
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                                    <FiUsers className="text-2xl" /> <span>Employee Management</span>
+                                </h2>
+                                <span className="bg-gray-100 dark:bg-zinc-700 text-gray-500 dark:text-zinc-400 text-xs px-2 py-1 rounded">Admin & HR Access</span>
+                            </div>
+
+                            <EmployeeForm
+                                onSubmit={handleSubmit}
+                                isEditing={isEditing}
+                                initialData={initialData}
+                                onCancel={() => { setIsEditing(null); setInitialData(null); }}
+                            />
+
+                            <EmployeeList
+                                employees={employees.filter(e => e.role === 'Employee')}
+                                onEdit={handleEdit}
+                                onDelete={handleDelete}
+                            />
+                        </div>
+                    </div>
+                )}
+
+                {/* --- RIGHT COLUMN: NFC ATTENDANCE (Employee ONLY) --- */}
+                {isEmployee && (
+                    <div className="lg:col-span-1 lg:col-start-2">
+                        <div className="sticky top-6">
+                            <CheckInOut
+                                status={currentAttendanceStatus}
+                                onCheckIn={() => markAttendance('Check In')}
+                                onCheckOut={() => markAttendance('Check Out')}
+                                nfcId={currentUser.nfc}
+                            />
+                        </div>
+                    </div>
+                )}
+            </div>
+        </Layout>
     );
 }

@@ -1,6 +1,6 @@
 
 import { useEffect } from 'react';
-import Navbar from "../components/common/Navbar";
+import Layout from '../components/common/Layout';
 import { useAuth } from '../context/AuthContext';
 import { useEmployees } from '../context/EmployeeContext';
 import { useTasks } from '../context/TaskContext';
@@ -41,16 +41,20 @@ export default function Tasks() {
         showAlert('Task assigned successfully!', 'success');
     };
 
-    return (
-        <div className="min-h-screen bg-gray-50 dark:bg-zinc-900 pb-12 transition-colors duration-300">
-            <Navbar />
-            <div className="container mx-auto p-4 md:p-6 max-w-7xl">
-                <header className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Task Management</h1>
+    import Layout from '../components/common/Layout';
+    // ... imports
+
+    export default function Tasks() {
+        // ... hooks
+
+        return (
+            <Layout>
+                <div className="mb-6">
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Task Management</h1>
                     <p className="text-gray-500 dark:text-zinc-400">
                         {isAdminOrHR ? 'Assign and track team tasks.' : 'Manage your assigned tasks.'}
                     </p>
-                </header>
+                </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
@@ -68,12 +72,14 @@ export default function Tasks() {
                     {/* --- ADMIN/HR SIDE: ASSIGN TASK --- */}
                     {isAdminOrHR && (
                         <div className="lg:col-span-1 order-1 lg:order-2">
-                            <TaskForm employees={employees.filter(e => e.role === 'Employee')} onAssign={handleAssign} />
+                            <div className="bg-white dark:bg-zinc-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-700">
+                                <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white border-b border-gray-100 dark:border-zinc-700 pb-2">Assign New Task</h2>
+                                <TaskForm employees={employees.filter(e => e.role === 'Employee')} onAssign={handleAssign} />
+                            </div>
                         </div>
                     )}
 
                 </div>
-            </div>
-        </div>
-    );
-}
+            </Layout>
+        );
+    }

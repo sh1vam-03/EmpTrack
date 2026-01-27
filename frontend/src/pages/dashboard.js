@@ -1,76 +1,95 @@
+import Layout from '../components/common/Layout';
 import { useRouter } from 'next/router';
 import { useAuth } from '../context/AuthContext';
 import { useEffect } from 'react';
+import { FiUsers, FiClock, FiCheckSquare, FiDollarSign } from 'react-icons/fi';
 
 export default function Dashboard() {
-    const { currentUser, logout, loading } = useAuth();
+    const { currentUser, loading } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
         if (!loading && !currentUser) {
-            router.push('/');
+            router.push('/login');
         }
     }, [currentUser, loading, router]);
 
-    if (loading || !currentUser) return <div className="p-10 text-center">Loading...</div>;
+    if (loading || !currentUser) return <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black text-gray-500">Loading...</div>;
 
     const cards = [
         {
             title: 'Employees',
-            desc: 'Manage employee details',
+            desc: 'Manage your workforce',
             role: ['Admin', 'HR'],
             link: '/employees',
-            color: 'bg-blue-500'
+            icon: FiUsers,
+            color: 'from-blue-500 to-blue-600'
         },
         {
             title: 'Attendance',
-            desc: 'View attendance records',
+            desc: 'Track daily logs',
             role: ['Admin', 'HR', 'Employee'],
             link: '/attendance',
-            color: 'bg-green-500'
+            icon: FiClock,
+            color: 'from-green-500 to-emerald-600'
         },
         {
             title: 'Tasks',
-            desc: 'Manage and track tasks',
+            desc: 'Assignments & Progress',
             role: ['Admin', 'HR', 'Employee'],
             link: '/tasks',
-            color: 'bg-purple-500'
+            icon: FiCheckSquare,
+            color: 'from-purple-500 to-indigo-600'
         },
         {
             title: 'Payroll',
-            desc: 'View payroll reports',
+            desc: 'Salary & Reports',
             role: ['Admin', 'HR', 'Employee'],
             link: '/payroll',
-            color: 'bg-yellow-500'
+            icon: FiDollarSign,
+            color: 'from-amber-500 to-orange-600'
         }
     ];
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-zinc-900 p-8">
-            <div className="max-w-7xl mx-auto">
-                <div className="flex justify-between items-center mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
-                        <p className="text-gray-600 dark:text-gray-400">Welcome, {currentUser.name} ({currentUser.role})</p>
-                    </div>
-                    <button onClick={logout} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
-                        Logout
-                    </button>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {cards.filter(c => c.role.includes(currentUser.role)).map((card, idx) => (
-                        <div key={idx}
-                            onClick={() => router.push(card.link)}
-                            className="bg-white dark:bg-zinc-800 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer overflow-hidden p-6 border-l-4 border-l-blue-500"
-                            style={{ borderLeftColor: card.color.replace('bg-', '') }} // Tailwind fix needed ideally but this is placeholder logic
-                        >
-                            <h2 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white">{card.title}</h2>
-                            <p className="text-gray-600 dark:text-gray-400">{card.desc}</p>
-                        </div>
-                    ))}
-                </div>
+        <Layout>
+            <div className="mb-8">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Dashboard</h1>
+                <p className="text-gray-500 dark:text-zinc-400">Welcome back, {currentUser.name}</p>
             </div>
-        </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {cards.filter(c => c.role.includes(currentUser.role)).map((card, idx) => (
+                    <div key={idx}
+                        onClick={() => router.push(card.link)}
+                        className="group relative bg-white dark:bg-zinc-900 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden border border-gray-100 dark:border-zinc-800"
+                    >
+                        <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${card.color}`} />
+                        <div className="p-6">
+                            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+                                <card.icon className="text-2xl" />
+                            </div>
+                            <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{card.title}</h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{card.desc}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Quick Stats or Welcome Banner could go here */}
+            <div className="mt-10 p-8 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-xl relative overflow-hidden">
+                <div className="relative z-10">
+                    <h2 className="text-2xl font-bold mb-2">Have a productive day! {currentUser.role === 'Admin' ? '🚀' : '✨'}</h2>
+                    <p className="opacity-90 max-w-lg">
+                        {currentUser.role === 'Admin'
+                            ? 'Manage your organization efficiently. Check the latest reports below.'
+                            : 'Track your tasks and attendance to unlock your full potential.'}
+                    </p>
+                </div>
+                {/* Decorative circles */}
+                <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+                <div className="absolute right-20 -top-20 w-48 h-48 bg-purple-500 opacity-20 rounded-full blur-2xl"></div>
+            </div>
+        </Layout>
     );
 }
