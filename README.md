@@ -1,4 +1,4 @@
-# Employee Management System (EMS)
+# EmpTrack – Smart Employee Attendance, Task & Payroll Management System
 
 ## 🚀 Live Demo : [Live Application](https://employee-management-system-sh1vam-03.vercel.app/)
 > The application is deployed on Vercel for easy access and review.
