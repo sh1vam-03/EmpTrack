@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { initialEmployees } from '../data/mockData';
-import { useEmployees } from './EmployeeContext';
+import { useRouter } from 'next/router';
+import api from '../utils/api';
 
 export const AuthContext = createContext();
 
@@ -15,14 +15,20 @@ export function useAuth() {
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         const loadUser = () => {
             try {
                 const storedUser = localStorage.getItem('currentUser');
-                if (storedUser) setCurrentUser(JSON.parse(storedUser));
+                if (storedUser) {
+                    const user = JSON.parse(storedUser);
+                    // Optional: Validate token with backend here
+                    setCurrentUser(user);
+                }
             } catch (error) {
                 console.error("Failed to load user", error);
+                localStorage.removeItem('currentUser');
             } finally {
                 setLoading(false);
             }
@@ -30,24 +36,25 @@ export function AuthProvider({ children }) {
         loadUser();
     }, []);
 
-    useEffect(() => {
-        if (!loading) {
-            if (currentUser) localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            else localStorage.removeItem('currentUser');
+    const login = async (employeeId, password) => {
+        try {
+            const { data } = await api.post('/auth/login', { employeeId, password });
+            setCurrentUser(data);
+            localStorage.setItem('currentUser', JSON.stringify(data));
+            return { success: true };
+        } catch (error) {
+            console.error("Login failed", error.response?.data?.message || error.message);
+            return {
+                success: false,
+                message: error.response?.data?.message || 'Login failed'
+            };
         }
-    }, [currentUser, loading]);
-
-    const login = (employeeId, allEmployees) => {
-        const user = allEmployees.find(e => e.id === employeeId);
-        if (user) {
-            setCurrentUser(user);
-            return true;
-        }
-        return false;
     };
 
     const logout = () => {
         setCurrentUser(null);
+        localStorage.removeItem('currentUser');
+        router.push('/');
     };
 
     const value = {

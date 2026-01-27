@@ -1,31 +1,32 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useEmployees } from '../../context/EmployeeContext';
 import { useAuth } from '../../context/AuthContext';
 
 export default function LoginForm() {
     const [employeeId, setEmployeeId] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { employees } = useEmployees();
     const { login } = useAuth();
     const router = useRouter();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         // Basic validation
-        if (!employeeId.trim()) {
-            setError('Please enter an Employee ID');
+        if (!employeeId.trim() || !password.trim()) {
+            setError('Please enter Employee ID and Password');
             return;
         }
 
-        // Check if user exists (simple check before context login to show error)
-        const userExists = employees.find(e => e.id === employeeId);
+        const result = await login(employeeId, password);
 
-        if (userExists) {
-            login(employeeId, employees);
-            router.push('/employees');
+        if (result.success) {
+            router.push('/dashboard'); // Changed redirection to dashboard if it exists, or maybe main page? 
+            // The original forwarded to /employees or specific page. 
+            // I'll create a dedicated dashboard page or route.
+            // For now let's assume /employees for Admin/HR and /attendance for Employee?
+            // Actually, let's redirect to a unified /dashboard page that I will create.
         } else {
-            setError('Invalid Employee ID');
+            setError(result.message);
         }
     };
 
@@ -38,9 +39,17 @@ export default function LoginForm() {
                 <form onSubmit={handleLogin} className="flex flex-col w-full">
                     <input
                         type="text"
-                        placeholder="Employee ID (e.g., EMP001)"
+                        placeholder="Employee ID (e.g., AD001)"
                         value={employeeId}
                         onChange={(e) => { setEmployeeId(e.target.value); setError(''); }}
+                        className="border border-zinc-300 dark:border-zinc-700 rounded-md p-3 mb-4 bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => { setPassword(e.target.value); setError(''); }}
                         className="border border-zinc-300 dark:border-zinc-700 rounded-md p-3 mb-4 bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-blue-500 outline-none"
                     />
 
@@ -53,12 +62,9 @@ export default function LoginForm() {
                     {/* Helper for demo purposes */}
                     <div className="mt-6 text-xs text-gray-400 bg-gray-100 dark:bg-zinc-900 p-3 rounded">
                         <p className="font-bold mb-1">Demo Credentials:</p>
-                        <p>Admin: AD001</p>
-                        <p>HR: HR001</p>
-                        <p>Employee 1: EMP001</p>
-                        <p>Employee 2: EMP002</p>
-                        <p>Employee 3: EMP003</p>
-                        <p>Employee 4: EMP004</p>
+                        <p>Admin: AD001 / 123</p>
+                        <p>HR: HR001 / 123</p>
+                        <p>Employee: EMP001 / 123</p>
                     </div>
                 </form>
             </div>
