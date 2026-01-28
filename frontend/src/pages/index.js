@@ -47,7 +47,7 @@ export default function Home() {
                   <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
                   <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
                 </div>
-                <div className="ml-4 w-64 h-6 rounded bg-white/5 text-xs flex items-center px-3 text-gray-500 font-mono">https://emptrack-sh1vam-03.vercel.app/admin</div>
+                <div className="ml-4 w-64 h-6 rounded bg-white/5 text-xs flex items-center px-3 text-gray-300 font-mono">https://emptrack-sh1vam-03.vercel.app/admin</div>
               </div>
 
               {/* Inner Content (Placeholder for Screenshot) */}
