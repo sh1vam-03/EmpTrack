@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import PublicLayout from '../components/common/PublicLayout';
-import { FiCheck, FiArrowRight, FiLayout, FiShield, FiUsers, FiClock, FiStar, FiZap, FiBarChart2, FiGlobe } from 'react-icons/fi';
-import { useState } from 'react';
+import { FiCheck, FiArrowRight, FiLayout, FiShield, FiUsers, FiClock, FiStar, FiZap, FiBarChart2 } from 'react-icons/fi';
 
 export default function Home() {
   return (
@@ -72,16 +71,28 @@ export default function Home() {
           <p className="text-sm font-medium text-gray-500 mb-8 tracking-widest uppercase">Trusted by innovative teams</p>
           <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 grayscale opacity-50 hover:opacity-100 transition-opacity duration-500">
             {/* NEXUS */}
-            <div className="text-2xl font-bold tracking-tighter text-white">NEX<span className="font-light">US</span></div>
+            <div className="flex items-center gap-2 text-white">
+              <FiZap className="text-2xl" />
+              <div className="text-2xl font-bold tracking-tighter">NEX<span className="font-light">US</span></div>
+            </div>
 
             {/* TASKEY */}
-            <div className="text-2xl font-black text-white">TAS<span className="text-blue-500">KEY</span></div>
+            <div className="flex items-center gap-2 text-white">
+              <FiClock className="text-2xl" />
+              <div className="text-2xl font-black">TAS<span className="text-blue-500">KEY</span></div>
+            </div>
 
             {/* PRINTPORTAL */}
-            <div className="text-2xl font-mono font-bold text-white">PRINT<span className="text-blue-500">PORTAL</span></div>
+            <div className="flex items-center gap-2 text-white">
+              <FiLayout className="text-2xl" />
+              <div className="text-2xl font-mono font-bold">PRINT<span className="text-blue-500">PORTAL</span></div>
+            </div>
 
             {/* TECHFLOW */}
-            <div className="text-2xl font-serif font-bold text-white">TECH<span className="italic">FLOW</span></div>
+            <div className="flex items-center gap-2 text-white">
+              <div className="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-xs font-bold text-white">TF</div>
+              <div className="text-2xl font-serif font-bold">TECH<span className="italic">FLOW</span></div>
+            </div>
           </div>
         </div>
       </section>
