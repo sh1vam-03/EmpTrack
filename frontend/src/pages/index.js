@@ -34,9 +34,7 @@ export default function Home() {
             <Link href="/signup" className="px-8 py-4 bg-white text-black hover:bg-gray-100 rounded-full font-bold transition-all shadow-xl shadow-white/10 flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95">
               Start for Free <FiArrowRight className="text-xl" />
             </Link>
-            <Link href="/contact" className="px-8 py-4 bg-zinc-900 text-white border border-zinc-800 hover:border-zinc-700 rounded-full font-semibold transition-all hover:bg-zinc-800">
-              Book a Demo
-            </Link>
+
           </div>
 
           {/* DASHBOARD PREVIEW */}
@@ -144,7 +142,7 @@ export default function Home() {
             <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-bl-xl uppercase tracking-wider">Free Forever</div>
             <h3 className="text-2xl font-bold text-white mb-2">Startup</h3>
             <p className="text-gray-400 mb-8">Perfect for small teams and startups.</p>
-            <div className="text-5xl font-bold text-white mb-8">$0 <span className="text-lg font-normal text-gray-500">/mo</span></div>
+            <div className="text-6xl font-black mb-8 bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-emerald-400 tracking-tight">FREE</div>
             <ul className="space-y-4 mb-10 flex-1">
               <li className="flex gap-3 text-gray-300"><FiCheck className="text-blue-500 shrink-0 text-xl" /> Up to 10 Employees</li>
               <li className="flex gap-3 text-gray-300"><FiCheck className="text-blue-500 shrink-0 text-xl" /> Basic Attendance & Payroll</li>
