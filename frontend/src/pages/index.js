@@ -72,30 +72,33 @@ export default function Home() {
           <p className="text-sm font-medium text-gray-500 mb-8 tracking-widest uppercase">Trusted by innovative teams</p>
           <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 grayscale opacity-50 hover:opacity-100 transition-opacity duration-500">
             {/* TechFlow */}
-            <div className="flex items-center gap-2 font-bold text-xl text-white">
-              <div className="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-xs">TF</div>
-              TechFlow
+            <div className="flex items-center gap-2 text-white">
+              <div className="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-xs font-bold text-white">TF</div>
+              <div className="text-2xl font-black">TECH<span className="text-blue-500">FLOW</span></div>
             </div>
 
             {/* Nexus */}
-            <div className="flex items-center gap-2 font-bold text-xl text-white">
-              <FiZap className="text-2xl" /> Nexus
+            <div className="flex items-center gap-2 text-white">
+              <FiZap className="text-2xl" />
+              <div className="text-2xl font-bold tracking-tighter">NEX<span className="font-light">US</span></div>
             </div>
 
             {/* Taskey */}
-            <div className="flex items-center gap-2 font-bold text-xl text-white">
-              <FiClock className="text-2xl" /> Taskey
+            <div className="flex items-center gap-2 text-white">
+              <FiClock className="text-2xl" />
+              <div className="text-2xl font-serif font-bold">Tas<span className="italic text-blue-500">key</span></div>
             </div>
 
             {/* PrintPortal */}
-            <div className="flex items-center gap-2 font-bold text-xl text-white">
-              <FiLayout className="text-2xl" /> PrintPortal
+            <div className="flex items-center gap-2 text-white">
+              <FiLayout className="text-2xl" />
+              <div className="text-2xl font-mono font-bold">Print<span className="text-blue-500">Portal</span></div>
             </div>
 
             {/* StartUp Inc */}
-            <div className="flex items-center gap-2 font-bold text-xl text-white">
-              <div className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-xs">S</div>
-              StartUp Inc.
+            <div className="flex items-center gap-2 text-white">
+              <div className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-xs font-bold">S</div>
+              <div className="text-2xl font-black">STARTUP<span className="font-light text-gray-400">INC</span></div>
             </div>
           </div>
         </div>
