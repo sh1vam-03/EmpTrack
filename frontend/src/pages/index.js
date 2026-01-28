@@ -48,7 +48,7 @@ export default function Home() {
                   <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
                   <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
                 </div>
-                <div className="ml-4 w-64 h-6 rounded bg-white/5 text-xs flex items-center px-3 text-gray-500 font-mono">app.emptrack.com/dashboard</div>
+                <div className="ml-4 w-64 h-6 rounded bg-white/5 text-xs flex items-center px-3 text-gray-500 font-mono">https://emptrack-sh1vam-03.vercel.app/admin</div>
               </div>
 
               {/* Inner Content (Placeholder for Screenshot) */}
@@ -61,6 +61,41 @@ export default function Home() {
                   <p className="text-gray-500">Real-time data visualization at your fingertips</p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TRUSTED BY */}
+      <section className="py-10 border-y border-white/5 bg-black/50">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-sm font-medium text-gray-500 mb-8 tracking-widest uppercase">Trusted by innovative teams</p>
+          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 grayscale opacity-50 hover:opacity-100 transition-opacity duration-500">
+            {/* TechFlow */}
+            <div className="flex items-center gap-2 font-bold text-xl text-white">
+              <div className="w-8 h-8 rounded bg-blue-500 flex items-center justify-center text-xs">TF</div>
+              TechFlow
+            </div>
+
+            {/* Nexus */}
+            <div className="flex items-center gap-2 font-bold text-xl text-white">
+              <FiZap className="text-2xl" /> Nexus
+            </div>
+
+            {/* Taskey */}
+            <div className="flex items-center gap-2 font-bold text-xl text-white">
+              <FiClock className="text-2xl" /> Taskey
+            </div>
+
+            {/* PrintPortal */}
+            <div className="flex items-center gap-2 font-bold text-xl text-white">
+              <FiLayout className="text-2xl" /> PrintPortal
+            </div>
+
+            {/* StartUp Inc */}
+            <div className="flex items-center gap-2 font-bold text-xl text-white">
+              <div className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-xs">S</div>
+              StartUp Inc.
             </div>
           </div>
         </div>
@@ -144,7 +179,7 @@ export default function Home() {
             <p className="text-gray-400 mb-8">Perfect for small teams and startups.</p>
             <div className="text-6xl font-black mb-8 bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-emerald-400 tracking-tight">FREE</div>
             <ul className="space-y-4 mb-10 flex-1">
-              <li className="flex gap-3 text-gray-300"><FiCheck className="text-blue-500 shrink-0 text-xl" /> Up to 10 Employees</li>
+              <li className="flex gap-3 text-gray-300"><FiCheck className="text-blue-500 shrink-0 text-xl" /> Unlimited Employees</li>
               <li className="flex gap-3 text-gray-300"><FiCheck className="text-blue-500 shrink-0 text-xl" /> Basic Attendance & Payroll</li>
               <li className="flex gap-3 text-gray-300"><FiCheck className="text-blue-500 shrink-0 text-xl" /> Task Management</li>
               <li className="flex gap-3 text-gray-300"><FiCheck className="text-blue-500 shrink-0 text-xl" /> Community Support</li>
