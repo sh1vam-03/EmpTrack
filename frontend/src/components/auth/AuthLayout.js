@@ -13,12 +13,12 @@ export default function AuthLayout({ children, title, subtitle }) {
                 </div>
 
                 <div className="relative z-10 max-w-lg">
-                    <div className="flex items-center gap-3 mb-8">
+                    <Link href="/" className="flex items-center gap-3 mb-8 group hover:opacity-80 transition-opacity">
                         <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
                             <span className="text-white font-bold text-xl">E</span>
                         </div>
-                        <span className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-200 to-white">EmpTrack</span>
-                    </div>
+                        <span className="text-2xl font-bold text-white tracking-tighter">EMP<span className="font-light">TRACK</span></span>
+                    </Link>
 
                     <h1 className="text-5xl font-bold mb-6 leading-tight">
                         Manage your team with <span className="text-blue-400">confidence</span>.
@@ -48,12 +48,12 @@ export default function AuthLayout({ children, title, subtitle }) {
             <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 md:p-12 lg:p-24 bg-white dark:bg-black">
                 <div className="w-full max-w-md">
                     {/* Mobile Logo */}
-                    <div className="lg:hidden flex items-center gap-2 mb-8 justify-center">
+                    <Link href="/" className="lg:hidden flex items-center gap-2 mb-8 justify-center hover:opacity-80 transition-opacity">
                         <div className="w-8 h-8 bg-linear-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                             <span className="text-white font-bold text-lg">E</span>
                         </div>
-                        <span className="text-xl font-bold text-gray-900 dark:text-white">EmpTrack</span>
-                    </div>
+                        <span className="text-xl font-bold text-gray-900 dark:text-white tracking-tighter">EMP<span className="font-light">TRACK</span></span>
+                    </Link>
 
                     <div className="mb-10 text-center lg:text-left">
                         <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{title}</h2>
