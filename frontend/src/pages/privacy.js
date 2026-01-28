@@ -3,37 +3,57 @@ import PublicLayout from '../components/common/PublicLayout';
 export default function Privacy() {
     return (
         <PublicLayout>
-            <div className="container mx-auto px-6 py-20 max-w-4xl">
-                <h1 className="text-4xl font-bold mb-8">Privacy Policy</h1>
-                <div className="prose prose-invert prose-lg max-w-none text-gray-400">
-                    <p>Last updated: January 2026</p>
+            <div className="max-w-4xl mx-auto px-6 py-24">
+                <div className="text-center mb-16">
+                    <p className="text-sm font-bold text-purple-500 uppercase tracking-widest mb-4">Legal</p>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-6">Privacy Policy</h1>
+                    <p className="text-gray-400">Last updated: January 28, 2026</p>
+                </div>
 
-                    <h3 className="text-white mt-8 mb-4 text-xl font-bold">1. Introduction</h3>
-                    <p>
-                        Welcome to EmpTrack. We respect your privacy and are committed to protecting your personal data.
-                        This privacy policy will inform you as to how we look after your personal data when you visit our website
-                        and tell you about your privacy rights and how the law protects you.
+                <div className="prose prose-invert prose-lg max-w-none text-gray-300">
+                    <p className="lead text-xl text-gray-300 mb-12">
+                        EmpTrack Inc. ("us", "we", or "our") operates the EmpTrack website (the "Service"). This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.
                     </p>
 
-                    <h3 className="text-white mt-8 mb-4 text-xl font-bold">2. Data We Collect</h3>
+                    <h3 className="text-2xl font-bold text-white mt-12 mb-6">1. Information Collection And Use</h3>
                     <p>
-                        We may collect, use, store and transfer different kinds of personal data about you which we have grouped together follows:
+                        We collect several different types of information for various purposes to provide and improve our Service to you.
                     </p>
-                    <ul className="list-disc pl-6 space-y-2 mt-4">
-                        <li><strong>Identity Data:</strong> includes first name, maiden name, last name, username or similar identifier.</li>
-                        <li><strong>Contact Data:</strong> includes billing address, delivery address, email address and telephone numbers.</li>
-                        <li><strong>Technical Data:</strong> includes internet protocol (IP) address, your login data, browser type and version.</li>
+                    <h4 className="text-xl font-bold text-white mt-6 mb-4">Types of Data Collected</h4>
+                    <ul className="list-disc pl-6 space-y-2 mb-6">
+                        <li>Email address</li>
+                        <li>First name and last name</li>
+                        <li>Phone number</li>
+                        <li>Address, State, Province, ZIP/Postal code, City</li>
+                        <li>Cookies and Usage Data</li>
                     </ul>
 
-                    <h3 className="text-white mt-8 mb-4 text-xl font-bold">3. How We Use Your Data</h3>
+                    <h3 className="text-2xl font-bold text-white mt-12 mb-6">2. Use of Data</h3>
                     <p>
-                        We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:
+                        EmpTrack uses the collected data for various purposes:
                     </p>
-                    <ul className="list-disc pl-6 space-y-2 mt-4">
-                        <li>Where we need to perform the contract we are about to enter into or have entered into with you.</li>
-                        <li>Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.</li>
-                        <li>Where we need to comply with a legal or regulatory obligation.</li>
+                    <ul className="list-disc pl-6 space-y-2 mb-6">
+                        <li>To provide and maintain the Service</li>
+                        <li>To notify you about changes to our Service</li>
+                        <li>To allow you to participate in interactive features of our Service when you choose to do so</li>
+                        <li>To provide customer care and support</li>
+                        <li>To provide analysis or valuable information so that we can improve the Service</li>
                     </ul>
+
+                    <h3 className="text-2xl font-bold text-white mt-12 mb-6">3. Transfer Of Data</h3>
+                    <p>
+                        Your information, including Personal Data, may be transferred to — and maintained on — computers located outside of your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from your jurisdiction.
+                    </p>
+
+                    <h3 className="text-2xl font-bold text-white mt-12 mb-6">4. Security Of Data</h3>
+                    <p>
+                        The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.
+                    </p>
+
+                    <div className="mt-16 p-8 bg-zinc-900 rounded-2xl border border-zinc-800 text-sm text-gray-400">
+                        <p className="mb-2 font-bold text-white">Contact Us</p>
+                        <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:privacy@emptrack.com" className="text-blue-400 hover:underline">privacy@emptrack.com</a>.</p>
+                    </div>
                 </div>
             </div>
         </PublicLayout>
