@@ -1,5 +1,5 @@
 import PublicLayout from '../components/common/PublicLayout';
-
+// Terms of Service
 export default function Terms() {
     return (
         <PublicLayout>
