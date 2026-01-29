@@ -34,12 +34,26 @@ const getPayroll = async (req, res) => {
         });
 
         const daysPresent = attendance.length;
-        const perDaySalary = emp.salary / 30; // Assumption from README
-        const netSalary = (perDaySalary * daysPresent).toFixed(2);
+        const totalDays = 30; // Assumption
+        const absentDays = Math.max(0, totalDays - daysPresent);
+
+        const baseSalary = emp.salary;
+        const perDaySalary = baseSalary / totalDays;
+
+        const deduction = (perDaySalary * absentDays).toFixed(2);
+        const overtime = 0; // Placeholder until Overtime module is added
+        const bonus = 0; // Placeholder until Bonus module is added
+
+        const netSalary = (baseSalary - deduction + overtime + bonus).toFixed(2);
 
         payrollData.push({
             employee: emp,
             daysPresent,
+            absentDays,
+            baseSalary,
+            deduction,
+            overtime,
+            bonus,
             netSalary,
             month
         });

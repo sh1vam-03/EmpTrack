@@ -57,11 +57,14 @@ const updateTask = async (req, res) => {
     const task = await Task.findById(req.params.id);
 
     if (task) {
-        // Employees can only update status
+        // Employees can only update status to In Progress or Completed
         if (req.user.role === 'Employee') {
             if (task.assignedTo.toString() !== req.user._id.toString()) {
                 res.status(401).json({ message: 'Not authorized' });
                 return;
+            }
+            if (req.body.status === 'Approved') {
+                return res.status(403).json({ message: 'Employees cannot approve tasks' });
             }
             task.status = req.body.status || task.status;
         } else {

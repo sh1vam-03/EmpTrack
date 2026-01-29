@@ -39,6 +39,14 @@ const markAttendance = async (req, res) => {
     const now = new Date();
     const timeString = now.toLocaleTimeString();
 
+    // Determine approval status
+    // IF NFC is provided -> Approved (Trusted Source)
+    // IF Manual ID (no NFC, just employeeId) -> Pending (Needs HR Approval)
+    let approvalStatus = 'Approved';
+    if (!nfc && employeeId) {
+        approvalStatus = 'Pending';
+    }
+
     if (existingAttendance) {
         if (existingAttendance.checkOut) {
             res.status(400).json({ message: 'Already checked out for today' });
@@ -52,30 +60,52 @@ const markAttendance = async (req, res) => {
             employee: employee._id,
             date: today,
             checkIn: timeString,
-            status: 'Present'
+            status: 'Present',
+            approvalStatus
         });
-        res.json({ message: `Welcome ${employee.name}, Checked In at ${timeString}` });
+
+        const msg = approvalStatus === 'Pending'
+            ? `Attendance marked manually for ${employee.name}. Status: Pending Approval.`
+            : `Welcome ${employee.name}, Checked In at ${timeString}`;
+
+        res.json({ message: msg });
     }
 };
 
-// @desc    Get attendance history
-// @route   GET /api/attendance
-// @access  Private
-const getAttendance = async (req, res) => {
-    // Admin/HR see all in Org. Employee sees self.
+// @desc    Approve/Reject Attendance (Manual Entry)
+// @route   PUT /api/attendance/:id
+// @access  Private (Admin/HR)
+const approveAttendance = async (req, res) => {
+    const { status } = req.body; // Approved / Rejected
 
-    let query = {};
-    if (req.user.role === 'Employee') {
-        query.employee = req.user._id;
+    const attendance = await Attendance.findById(req.params.id);
+
+    if (attendance) {
+        attendance.approvalStatus = status;
+        await attendance.save();
+        res.json(attendance);
     } else {
-        // Find all employees in this org
-        const orgEmployees = await Employee.find({ organization: req.user.organization }).select('_id');
-        const empIds = orgEmployees.map(e => e._id);
-        query.employee = { $in: empIds };
+        res.status(404).json({ message: 'Attendance record not found' });
     }
 
-    const attendance = await Attendance.find(query).populate('employee', 'name employeeId role');
-    res.json(attendance);
-};
+    // @desc    Get attendance history
+    // @route   GET /api/attendance
+    // @access  Private
+    const getAttendance = async (req, res) => {
+        // Admin/HR see all in Org. Employee sees self.
 
-module.exports = { markAttendance, getAttendance };
+        let query = {};
+        if (req.user.role === 'Employee') {
+            query.employee = req.user._id;
+        } else {
+            // Find all employees in this org
+            const orgEmployees = await Employee.find({ organization: req.user.organization }).select('_id');
+            const empIds = orgEmployees.map(e => e._id);
+            query.employee = { $in: empIds };
+        }
+
+        const attendance = await Attendance.find(query).populate('employee', 'name employeeId role');
+        res.json(attendance);
+    };
+
+    module.exports = { markAttendance, getAttendance, approveAttendance };

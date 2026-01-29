@@ -20,6 +20,11 @@ const attendanceSchema = new mongoose.Schema({
         type: String,
         enum: ['Present', 'Absent', 'Leave'],
         default: 'Absent'
+    },
+    approvalStatus: {
+        type: String,
+        enum: ['Pending', 'Approved', 'Rejected'],
+        default: 'Approved' // NFC is auto-approved, Manual will be Pending
     }
 }, {
     timestamps: true
