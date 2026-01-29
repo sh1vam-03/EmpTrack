@@ -6,11 +6,13 @@ const generateToken = require('../utils/generateToken');
 // @route   POST /api/auth/signup
 // @access  Public
 const registerUser = async (req, res) => {
-    const { orgName, orgEmail, adminName, adminEmail, password } = req.body;
+    // Removed orgEmail from destructuring as it's no longer sent from frontend
+    const { orgName, adminName, adminEmail, password } = req.body;
 
-    const orgExists = await Organization.findOne({ email: orgEmail });
+    // Use adminEmail as organization primary contact email
+    const orgExists = await Organization.findOne({ email: adminEmail });
     if (orgExists) {
-        res.status(400).json({ message: 'Organization already exists' });
+        res.status(400).json({ message: 'Organization with this email already exists' });
         return;
     }
 
@@ -20,10 +22,10 @@ const registerUser = async (req, res) => {
         return;
     }
 
-    // Create Organization
+    // Create Organization using adminEmail
     const organization = await Organization.create({
         name: orgName,
-        email: orgEmail
+        email: adminEmail
     });
 
     // Create Admin User

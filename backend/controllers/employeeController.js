@@ -25,6 +25,14 @@ const registerEmployee = async (req, res) => {
         return;
     }
 
+    // Role Validation
+    if (role === 'Admin') {
+        return res.status(403).json({ message: 'Cannot create Admin account' });
+    }
+    if (role === 'HR' && req.user.role !== 'Admin') {
+        return res.status(403).json({ message: 'Only Admins can create HR accounts' });
+    }
+
     const employee = await Employee.create({
         organization: req.user.organization,
         name,
@@ -56,6 +64,15 @@ const updateEmployee = async (req, res) => {
     const employee = await Employee.findOne({ _id: req.params.id, organization: req.user.organization });
 
     if (employee) {
+        // Prevent HR from changing roles to Admin/HR or modifying existing Admin/HR
+        if (req.user.role !== 'Admin') {
+            if (req.body.role && (req.body.role === 'Admin' || req.body.role === 'HR')) {
+                return res.status(403).json({ message: 'Not authorized to assign Admin/HR roles' });
+            }
+            if (employee.role === 'Admin' || employee.role === 'HR') {
+                return res.status(403).json({ message: 'Not authorized to modify Admin/HR accounts' });
+            }
+        }
         employee.name = req.body.name || employee.name;
         employee.email = req.body.email || employee.email;
         employee.role = req.body.role || employee.role;

@@ -9,7 +9,6 @@ import { FiUser, FiMail, FiBriefcase, FiLock, FiShield } from 'react-icons/fi';
 export default function Signup() {
     const [formData, setFormData] = useState({
         orgName: '',
-        orgEmail: '',
         adminName: '',
         adminEmail: '',
         password: ''
@@ -53,7 +52,7 @@ export default function Signup() {
                 {/* Organization Details */}
                 <div className="space-y-4">
                     <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest border-b border-gray-100 dark:border-zinc-800 pb-2 mb-3">Organization Info</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1">
                         <AuthInput
                             label="Organization Name"
                             type="text"
@@ -62,16 +61,6 @@ export default function Signup() {
                             value={formData.orgName}
                             onChange={handleChange}
                             icon={FiBriefcase}
-                            required
-                        />
-                        <AuthInput
-                            label="Org Email"
-                            type="email"
-                            name="orgEmail"
-                            placeholder="contact@acme.com"
-                            value={formData.orgEmail}
-                            onChange={handleChange}
-                            icon={FiMail}
                             required
                         />
                     </div>
