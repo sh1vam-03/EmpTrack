@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import api from '../utils/api';
+import api from '../services/api';
 import AuthLayout from '../components/auth/AuthLayout';
 import AuthInput from '../components/auth/AuthInput';
 import { FiUser, FiMail, FiBriefcase, FiLock, FiShield } from 'react-icons/fi';

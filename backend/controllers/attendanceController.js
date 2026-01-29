@@ -87,25 +87,26 @@ const approveAttendance = async (req, res) => {
     } else {
         res.status(404).json({ message: 'Attendance record not found' });
     }
+};
 
-    // @desc    Get attendance history
-    // @route   GET /api/attendance
-    // @access  Private
-    const getAttendance = async (req, res) => {
-        // Admin/HR see all in Org. Employee sees self.
+// @desc    Get attendance history
+// @route   GET /api/attendance
+// @access  Private
+const getAttendance = async (req, res) => {
+    // Admin/HR see all in Org. Employee sees self.
 
-        let query = {};
-        if (req.user.role === 'Employee') {
-            query.employee = req.user._id;
-        } else {
-            // Find all employees in this org
-            const orgEmployees = await Employee.find({ organization: req.user.organization }).select('_id');
-            const empIds = orgEmployees.map(e => e._id);
-            query.employee = { $in: empIds };
-        }
+    let query = {};
+    if (req.user.role === 'Employee') {
+        query.employee = req.user._id;
+    } else {
+        // Find all employees in this org
+        const orgEmployees = await Employee.find({ organization: req.user.organization }).select('_id');
+        const empIds = orgEmployees.map(e => e._id);
+        query.employee = { $in: empIds };
+    }
 
-        const attendance = await Attendance.find(query).populate('employee', 'name employeeId role');
-        res.json(attendance);
-    };
+    const attendance = await Attendance.find(query).populate('employee', 'name employeeId role');
+    res.json(attendance);
+};
 
-    module.exports = { markAttendance, getAttendance, approveAttendance };
+module.exports = { markAttendance, getAttendance, approveAttendance };

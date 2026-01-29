@@ -15,19 +15,9 @@ app.use(express.json());
 connectDB();
 
 // Routes
-const authRoutes = require('./routes/authRoutes');
-const employeeRoutes = require('./routes/employeeRoutes');
-const attendanceRoutes = require('./routes/attendanceRoutes');
-const taskRoutes = require('./routes/taskRoutes');
-const payrollRoutes = require('./routes/payrollRoutes');
-const leaveRoutes = require('./routes/leaveRoutes');
+const routes = require('./routes');
 
-app.use('/api/auth', authRoutes);
-app.use('/api/employees', employeeRoutes);
-app.use('/api/attendance', attendanceRoutes);
-app.use('/api/tasks', taskRoutes);
-app.use('/api/payroll', payrollRoutes);
-app.use('/api/leaves', leaveRoutes);
+app.use('/api', routes);
 
 const PORT = process.env.PORT || 8000;
 
