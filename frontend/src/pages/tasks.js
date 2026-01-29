@@ -41,7 +41,6 @@ export default function Tasks() {
     };
 
     return (
-    return (
         <Layout>
             <div className="flex justify-between items-end mb-8">
                 <div>

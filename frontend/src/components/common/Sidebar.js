@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FiHome, FiUsers, FiClock, FiCheckSquare, FiDollarSign, FiLogOut, FiCalendar, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiHome, FiUsers, FiClock, FiCheckSquare, FiDollarSign, FiLogOut, FiCalendar, FiX } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
+import Logo from './Logo';
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
     const router = useRouter();
     const { logout, currentUser } = useAuth();
     const [collapsed, setCollapsed] = useState(false);
+
+    // Close sidebar on route change (for mobile)
+    useEffect(() => {
+        if (isOpen && onClose) onClose();
+    }, [router.pathname]);
 
     const menuItems = [
         { name: 'Dashboard', icon: FiHome, path: '/dashboard', roles: ['Admin', 'HR', 'Employee'] },
@@ -21,55 +27,87 @@ export default function Sidebar() {
     const isActive = (path) => router.pathname === path;
 
     return (
-        <aside className={`hidden md:flex flex-col ${collapsed ? 'w-20' : 'w-72'} bg-white dark:bg-zinc-900 border-r border-gray-200 dark:border-zinc-800 h-screen sticky top-0 transition-all duration-300 z-40`}>
-            {/* Logo Section - Click to Toggle */}
+        <>
+            {/* Mobile Overlay */}
             <div
-                className={`p-6 flex items-center ${collapsed ? 'justify-center' : 'gap-3'} cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors border-b border-gray-100 dark:border-zinc-800 h-20`}
-                onClick={() => setCollapsed(!collapsed)}
-                title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-            >
-                <div className="w-8 h-8 min-w-[2rem] bg-linear-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
-                    <span className="text-white font-bold text-lg">E</span>
-                </div>
-                {!collapsed && (
-                    <span className="text-xl font-bold text-gray-900 dark:text-white tracking-tighter whitespace-nowrap overflow-hidden">
-                        EMP<span className="font-light">TRACK</span>
-                    </span>
-                )}
-            </div>
+                className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 md:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                onClick={onClose}
+            />
 
-            <nav className="flex-1 overflow-y-auto px-3 space-y-2 scrollbar-hide py-4">
-                {!collapsed && <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 mt-2">Menu</p>}
-
-                {menuItems.filter(item => item.roles.includes(currentUser?.role)).map((item) => (
-                    <Link
-                        key={item.path}
-                        href={item.path}
-                        className={`flex items-center ${collapsed ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl transition-all duration-300 group ${isActive(item.path)
-                            ? 'bg-linear-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30'
-                            : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800/50 hover:text-gray-900 dark:hover:text-white'
-                            }`}
-                        title={collapsed ? item.name : ''}
-                    >
-                        <item.icon className={`text-xl transition-transform group-hover:scale-110 ${isActive(item.path) ? 'text-white' : 'text-gray-400 dark:text-gray-500 group-hover:text-blue-500'}`} />
-                        {!collapsed && <span className="font-medium whitespace-nowrap overflow-hidden">{item.name}</span>}
-                        {!collapsed && isActive(item.path) && <span className="ml-auto w-1.5 h-1.5 bg-white rounded-full"></span>}
-                    </Link>
-                ))}
-            </nav>
-
-            <div className={`p-4 mt-auto border-t border-gray-100 dark:border-zinc-800`}>
-                <button
-                    onClick={() => { logout(); router.push('/login'); }}
-                    className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3 px-4'} py-3 w-full text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors font-medium text-sm group rounded-xl hover:bg-red-50 dark:hover:bg-red-900/10`}
-                    title="Logout"
+            <aside className={`
+                fixed md:sticky top-0 left-0 z-50 h-screen bg-white dark:bg-zinc-900 border-r border-gray-200 dark:border-zinc-800
+                flex flex-col transition-all duration-300 ease-in-out
+                ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+                ${collapsed ? 'md:w-20' : 'md:w-72'}
+                w-72
+            `}>
+                {/* Logo Section */}
+                <div
+                    className={`h-20 flex items-center ${collapsed ? 'md:justify-center' : 'justify-between px-6'} border-b border-gray-100 dark:border-zinc-800 transition-all`}
                 >
-                    <div className={`${collapsed ? '' : 'p-0'} transition-colors`}>
-                        <FiLogOut className="text-xl" />
+                    <div
+                        className={`flex items-center gap-3 cursor-pointer group`}
+                        onClick={() => setCollapsed(!collapsed)}
+                        title="Toggle Sidebar"
+                    >
+                        <Logo
+                            showText={!collapsed || isOpen}
+                            iconSize="w-9 h-9"
+                        />
                     </div>
-                    {!collapsed && <span className="whitespace-nowrap overflow-hidden">Sign Out</span>}
-                </button>
-            </div>
-        </aside>
+
+                    {/* Mobile Close Button */}
+                    <button onClick={onClose} className="md:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-lg">
+                        <FiX size={20} />
+                    </button>
+                </div>
+
+                {/* Navigation */}
+                <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-1.5 scrollbar-hide">
+                    {(!collapsed) && <p className="px-2 text-xs font-bold text-gray-400 dark:text-zinc-600 uppercase tracking-wider mb-2 hidden md:block">Main Menu</p>}
+
+                    {menuItems.filter(item => item.roles.includes(currentUser?.role)).map((item) => (
+                        <Link
+                            key={item.path}
+                            href={item.path}
+                            className={`flex items-center ${collapsed ? 'md:justify-center md:px-0' : 'gap-3 px-4'} py-3.5 rounded-xl transition-all duration-300 group ${isActive(item.path)
+                                ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 font-semibold'
+                                : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white'
+                                }`}
+                            title={collapsed ? item.name : ''}
+                        >
+                            <item.icon className={`text-[1.2rem] shrink-0 transition-transform group-hover:scale-110 ${isActive(item.path) ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-400 dark:text-zinc-500'}`} />
+
+                            <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ${collapsed ? 'md:w-0 md:opacity-0' : 'w-auto opacity-100'}`}>
+                                {item.name}
+                            </span>
+
+                            {(!collapsed && isActive(item.path)) && (
+                                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400"></div>
+                            )}
+                        </Link>
+                    ))}
+                </nav>
+
+                {/* Footer / Logout */}
+                <div className="p-4 border-t border-gray-100 dark:border-zinc-800">
+                    <button
+                        onClick={() => { logout(); router.push('/login'); }}
+                        className={`flex items-center ${collapsed ? 'md:justify-center' : 'gap-3 px-4'} py-3 w-full text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 transition-all rounded-xl hover:bg-red-50 dark:hover:bg-red-900/10 group font-medium text-sm`}
+                        title="Sign Out"
+                    >
+                        <FiLogOut className="text-[1.2rem] shrink-0 group-hover:scale-110 transition-transform" />
+                        <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ${collapsed ? 'md:w-0 md:opacity-0' : 'w-auto opacity-100'}`}>
+                            Sign Out
+                        </span>
+                    </button>
+                    {!collapsed && (
+                        <div className="mt-4 text-center hidden md:block">
+                            <p className="text-[10px] text-gray-400">© 2026 EmpTrack Inc.</p>
+                        </div>
+                    )}
+                </div>
+            </aside>
+        </>
     );
 }
