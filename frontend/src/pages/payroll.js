@@ -141,46 +141,53 @@ export default function Payroll() {
             </div>
 
             {/* Payroll List */}
-            <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-gray-200 dark:border-zinc-800 overflow-hidden text-sm transition-colors duration-300">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-sm border border-gray-200 dark:border-zinc-800 overflow-hidden text-sm transition-colors duration-300">
                 {displayPayrolls.length > 0 ? (
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm">
-                            <thead className="bg-gray-50 dark:bg-zinc-800 text-gray-500 dark:text-zinc-400 text-xs uppercase font-semibold">
+                        <table className="w-full text-left">
+                            <thead className="bg-gray-50/50 dark:bg-zinc-800/50 text-gray-500 dark:text-zinc-400 text-xs uppercase font-bold tracking-wider border-b border-gray-100 dark:border-zinc-800">
                                 <tr>
-                                    <th className="p-4">Period</th>
-                                    <th className="p-4">Employee</th>
-                                    <th className="p-4 text-center">Days Present</th>
-                                    <th className="p-4 text-right">Basic Salary</th>
-                                    <th className="p-4 text-right">Net Pay</th>
-                                    <th className="p-4 text-center">Action</th>
+                                    <th className="p-5 pl-6">Period</th>
+                                    <th className="p-5">Employee</th>
+                                    <th className="p-5 text-center">Days Present</th>
+                                    <th className="p-5 text-right">Basic Salary</th>
+                                    <th className="p-5 text-right">Net Pay</th>
+                                    <th className="p-5 text-center">Action</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-100 dark:divide-zinc-800">
+                            <tbody className="divide-y divide-gray-50 dark:divide-zinc-800/50">
                                 {displayPayrolls.map(slip => (
-                                    <tr key={slip.id} className="hover:bg-gray-50/50 dark:hover:bg-zinc-800/50 transition-colors">
-                                        <td className="p-4">
-                                            <span className="font-bold text-gray-700 dark:text-zinc-300">{slip.month} {slip.year}</span>
+                                    <tr key={slip.id} className="hover:bg-blue-50/30 dark:hover:bg-zinc-800/30 transition-colors group">
+                                        <td className="p-5 pl-6">
+                                            <span className="font-bold text-gray-800 dark:text-zinc-200 bg-gray-100 dark:bg-zinc-800 px-3 py-1 rounded-lg text-xs">{slip.month} {slip.year}</span>
                                         </td>
-                                        <td className="p-4">
-                                            <div className="font-medium text-gray-900 dark:text-white">{slip.name}</div>
-                                            <div className="text-xs text-gray-400">{slip.empId}</div>
+                                        <td className="p-5">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-xs">
+                                                    {slip.name.charAt(0)}
+                                                </div>
+                                                <div>
+                                                    <div className="font-semibold text-gray-900 dark:text-white">{slip.name}</div>
+                                                    <div className="text-xs text-gray-400 font-mono">{slip.empId}</div>
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td className="p-4 text-center">
-                                            <span className="inline-block px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 rounded text-xs font-bold">
+                                        <td className="p-5 text-center">
+                                            <span className="inline-flex items-center justify-center px-2.5 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-md text-xs font-bold border border-green-100 dark:border-green-900/30">
                                                 {slip.daysPresent} Days
                                             </span>
                                         </td>
-                                        <td className="p-4 text-right text-gray-500 dark:text-zinc-400">₹{slip.basicSalary.toLocaleString()}</td>
-                                        <td className="p-4 text-right">
-                                            <span className="text-green-600 dark:text-green-400 font-bold text-base">₹{slip.netSalary.toLocaleString()}</span>
+                                        <td className="p-5 text-right text-gray-500 dark:text-zinc-400 font-medium font-mono">₹{slip.basicSalary.toLocaleString()}</td>
+                                        <td className="p-5 text-right">
+                                            <span className="text-gray-900 dark:text-white font-bold text-base font-mono tracking-tight">₹{slip.netSalary.toLocaleString()}</span>
                                         </td>
-                                        <td className="p-4 text-center">
+                                        <td className="p-5 text-center">
                                             <button
                                                 onClick={() => handleDownload(slip.id)}
-                                                className="text-gray-400 hover:text-blue-600 dark:text-zinc-500 dark:hover:text-blue-400 transition-colors p-2"
+                                                className="text-gray-400 hover:text-blue-600 dark:text-zinc-500 dark:hover:text-blue-400 transition-colors p-2 bg-gray-50 dark:bg-zinc-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20"
                                                 title="Download Slip"
                                             >
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                             </button>
                                         </td>
                                     </tr>
@@ -189,15 +196,15 @@ export default function Payroll() {
                         </table>
                     </div>
                 ) : (
-                    <div className="p-16 flex flex-col items-center justify-center text-center">
-                        <div className="w-16 h-16 bg-gray-100 dark:bg-zinc-800 rounded-full flex items-center justify-center mb-4 text-gray-400 dark:text-zinc-500">
-                            <FiInbox className="text-3xl" />
+                    <div className="p-20 flex flex-col items-center justify-center text-center">
+                        <div className="w-20 h-20 bg-gray-50 dark:bg-zinc-800/50 rounded-full flex items-center justify-center mb-6 text-gray-300 dark:text-zinc-600">
+                            <FiInbox className="text-4xl" />
                         </div>
-                        <h3 className="text-lg font-bold text-gray-700 dark:text-zinc-200 mb-2">No Payroll Records</h3>
-                        <p className="text-gray-500 dark:text-zinc-400 max-w-sm">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">No Payroll Records</h3>
+                        <p className="text-gray-500 dark:text-zinc-400 max-w-md mx-auto leading-relaxed">
                             {isAdminOrHR
-                                ? "Click the 'Process Current Month Payroll' button to generate salary slips for all employees based on their attendance."
-                                : "Payroll for this month hasn't been processed yet. Please check back later."}
+                                ? "Click the 'Process Current Month Payroll' button above to automatically generate salary slips for all eligible employees."
+                                : "Payroll for this month hasn't been generated yet. Please check back after the pay period ends."}
                         </p>
                     </div>
                 )}

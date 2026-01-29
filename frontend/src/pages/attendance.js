@@ -57,30 +57,35 @@ export default function Attendance() {
             </div>
 
             {/* Filters */}
-            <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-700 mb-6 flex flex-wrap gap-4 items-center">
-                <div className="flex flex-col">
-                    <label className="text-xs font-bold text-gray-400 dark:text-zinc-500 uppercase mb-1">Filter by Date</label>
-                    <input
-                        type="date"
-                        className="border border-gray-200 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-                        onChange={(e) => setFilterDate(e.target.value)}
-                    />
-                </div>
-                {isAdminOrHR && (
-                    <div className="flex flex-col">
-                        <label className="text-xs font-bold text-gray-400 dark:text-zinc-500 uppercase mb-1">Filter by Employee ID</label>
+            {/* Filters */}
+            <div className="bg-white dark:bg-zinc-900 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-zinc-800 mb-8">
+                <div className="flex flex-col md:flex-row gap-6 items-end">
+                    <div className="flex-1 w-full">
+                        <label className="block text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Filter by Date</label>
                         <input
-                            type="text"
-                            placeholder="e.g. EMP003"
-                            className="border border-gray-200 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-gray-900 dark:text-white rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none w-48 placeholder-gray-400 dark:placeholder-zinc-500"
-                            onChange={(e) => setFilterEmp(e.target.value)}
+                            type="date"
+                            className="w-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800/50 text-gray-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                            onChange={(e) => setFilterDate(e.target.value)}
                         />
                     </div>
-                )}
-                <div className="ml-auto">
-                    <span className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-sm font-medium">
-                        Docs: {filteredHistory.length}
-                    </span>
+
+                    {isAdminOrHR && (
+                        <div className="flex-1 w-full">
+                            <label className="block text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2">Employee ID Search</label>
+                            <input
+                                type="text"
+                                placeholder="Search by EMP ID..."
+                                className="w-full border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800/50 text-gray-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                onChange={(e) => setFilterEmp(e.target.value)}
+                            />
+                        </div>
+                    )}
+
+                    <div className="w-full md:w-auto">
+                        <div className="h-[46px] px-6 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-900/30 flex items-center justify-center font-bold text-sm whitespace-nowrap">
+                            Total Records: {filteredHistory.length}
+                        </div>
+                    </div>
                 </div>
             </div>
 

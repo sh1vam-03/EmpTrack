@@ -25,10 +25,9 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            await login(credentials.email, credentials.password);
-        } catch (err) {
-            setError("Invalid email or password. Please try again.");
+        const result = await login(credentials.email, credentials.password);
+        if (!result.success) {
+            setError(result.message || "Invalid email or password. Please try again.");
         }
     };
 

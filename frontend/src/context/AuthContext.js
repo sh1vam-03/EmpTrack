@@ -36,9 +36,9 @@ export function AuthProvider({ children }) {
         loadUser();
     }, []);
 
-    const login = async (employeeId, password) => {
+    const login = async (email, password) => {
         try {
-            const { data } = await api.post('/auth/login', { employeeId, password });
+            const { data } = await api.post('/auth/login', { email, password });
             setCurrentUser(data);
             localStorage.setItem('currentUser', JSON.stringify(data));
             return { success: true };
