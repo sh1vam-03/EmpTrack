@@ -1,5 +1,6 @@
 const Leave = require('../models/Leave');
 const Employee = require('../models/Employee');
+const Notification = require('../models/Notification');
 
 // @desc    Get leaves
 // @route   GET /api/leaves
@@ -65,6 +66,18 @@ const updateLeaveStatus = async (req, res) => {
 
     const updatedLeave = await leave.save();
     res.json(updatedLeave);
+
+    // Trigger Notification
+    try {
+        await Notification.create({
+            recipient: leave.employee,
+            message: `Your leave request for ${new Date(leave.startDate).toLocaleDateString()} has been ${status}`,
+            type: status === 'Approved' ? 'success' : 'error',
+            link: '/leaves'
+        });
+    } catch (error) {
+        console.error("Notification Error:", error);
+    }
 };
 
 module.exports = {

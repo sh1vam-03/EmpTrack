@@ -5,7 +5,14 @@ const Employee = require('../models/Employee');
 // @access  Private/Admin/HR
 const getEmployees = async (req, res) => {
     // Only get employees from the same organization
-    const employees = await Employee.find({ organization: req.user.organization });
+    const query = { organization: req.user.organization };
+
+    // If requester is Admin, hide other Admins
+    if (req.user.role === 'Admin') {
+        query.role = { $ne: 'Admin' };
+    }
+
+    const employees = await Employee.find(query);
     res.json(employees);
 };
 

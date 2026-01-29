@@ -6,7 +6,7 @@ import { AttendanceProvider } from "../context/AttendanceContext";
 import { TaskProvider } from "../context/TaskContext";
 import { AlertProvider } from "../context/AlertContext";
 import { ConfirmProvider } from "../context/ConfirmContext";
-
+import { NotificationProvider } from "../context/NotificationContext";
 const outfit = Outfit({ subsets: ['latin'] });
 
 export default function App({ Component, pageProps }) {
@@ -16,11 +16,13 @@ export default function App({ Component, pageProps }) {
         <ConfirmProvider>
           <EmployeeProvider>
             <AttendanceProvider>
-              <TaskProvider>
-                <main className={outfit.className}>
-                  <Component {...pageProps} />
-                </main>
-              </TaskProvider>
+              <NotificationProvider>
+                <TaskProvider>
+                  <main className={outfit.className}>
+                    <Component {...pageProps} />
+                  </main>
+                </TaskProvider>
+              </NotificationProvider>
             </AttendanceProvider>
           </EmployeeProvider>
         </ConfirmProvider>

@@ -1,9 +1,10 @@
 import Layout from '../components/common/Layout';
 import { useRouter } from 'next/router';
 import { useAuth } from '../context/AuthContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FiUsers, FiClock, FiCheckSquare, FiDollarSign, FiCalendar, FiArrowRight } from 'react-icons/fi';
 import StatsCard from '../components/common/StatsCard';
+import api from '../services/api';
 
 export default function Dashboard() {
     const { currentUser, loading } = useAuth();
@@ -17,11 +18,34 @@ export default function Dashboard() {
 
     if (loading || !currentUser) return <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black text-gray-500">Loading...</div>;
 
+    const [stats, setStats] = useState({
+        totalEmployees: 0,
+        presentToday: 0,
+        pendingTasks: 0,
+        onLeave: 0
+    });
+    // const { token } = useAuth(); // Not needed, handled by api interceptor
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const { data } = await api.get('/dashboard/stats');
+                setStats(data);
+            } catch (error) {
+                console.error("Failed to fetch dashboard stats", error);
+            }
+        };
+
+        if (currentUser) {
+            fetchStats();
+        }
+    }, [currentUser]);
+
     const cards = [
         {
             title: 'Total Employees',
-            value: '12', // Placeholder - would come from API
-            trend: 8.5,
+            value: stats.totalEmployees,
+            trend: 0, // Trends require historical data, leaving as 0 or static for now
             color: 'blue',
             icon: FiUsers,
             link: '/employees',
@@ -29,8 +53,8 @@ export default function Dashboard() {
         },
         {
             title: 'Present Today',
-            value: '10',
-            trend: 2.1,
+            value: stats.presentToday,
+            trend: 0,
             color: 'green',
             icon: FiClock,
             link: '/attendance',
@@ -38,8 +62,8 @@ export default function Dashboard() {
         },
         {
             title: 'Pending Tasks',
-            value: '5',
-            trend: -4.2,
+            value: stats.pendingTasks,
+            trend: 0,
             color: 'purple',
             icon: FiCheckSquare,
             link: '/tasks',
@@ -47,7 +71,7 @@ export default function Dashboard() {
         },
         {
             title: 'On Leave',
-            value: '2',
+            value: stats.onLeave,
             trend: 0,
             color: 'orange',
             icon: FiCalendar,

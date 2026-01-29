@@ -1,5 +1,6 @@
 const Task = require('../models/Task');
 const Employee = require('../models/Employee');
+const Notification = require('../models/Notification');
 
 // @desc    Get tasks
 // @route   GET /api/tasks
@@ -48,6 +49,18 @@ const assignTask = async (req, res) => {
     });
 
     res.status(201).json(task);
+
+    // Trigger Notification
+    try {
+        await Notification.create({
+            recipient: assignedTo,
+            message: `You have been assigned a new task: "${title}"`,
+            type: 'info',
+            link: '/tasks'
+        });
+    } catch (error) {
+        console.error("Notification Error:", error);
+    }
 };
 
 // @desc    Update task status

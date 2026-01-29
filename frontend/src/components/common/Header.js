@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
-import { FiMenu, FiBell } from 'react-icons/fi';
+import { FiMenu } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
+import NotificationBell from './NotificationBell';
 
 export default function Header({ toggleSidebar }) {
     const router = useRouter();
@@ -33,10 +34,7 @@ export default function Header({ toggleSidebar }) {
             </div>
 
             <div className="flex items-center gap-6">
-                <button className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-500 dark:text-gray-400 transition-colors">
-                    <FiBell size={20} />
-                    <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-zinc-900"></span>
-                </button>
+                <NotificationBell />
 
                 <div className="flex items-center gap-3 pl-6 border-l border-gray-200 dark:border-zinc-700">
                     <div className="text-right hidden sm:block">
